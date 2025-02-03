@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Style
+        x:Key="ContentPage"
+        ApplyToDerivedTypes="True"
+        TargetType="ContentPage">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Background}" />
+    </Style>
+
+    <Style x:Key="BorderPrimary" TargetType="Border">
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
+    <Style x:Key="VerticalStackLayoutPrimary" TargetType="VerticalStackLayout">
+        <Setter Property="VerticalOptions" Value="FillAndExpand" />
+    </Style>
+
+    <Style x:Key="BorderPickerBordered" TargetType="Border">
+        <Setter Property="Margin" Value="0,0,0,5" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BackgroundColor" Value="{StaticResource ColorDarkBackground}" />
+        <Setter Property="Stroke" Value="{StaticResource ActiveColor}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Stroke" Value="#2B659B" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style x:Key="EntryBorders" TargetType="Border">
+        <Setter Property="Padding" Value="-5,0,0,0" />
+        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        <Setter Property="BackgroundColor" Value="{StaticResource ColorDarkBackground}" />
+        <Setter Property="Stroke" Value="{StaticResource ActiveColor}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Stroke" Value="#2B659B" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style x:Key="LabelBorders" TargetType="Border">
+        <Setter Property="Padding" Value="-5,0,0,0" />
+        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        <Setter Property="BackgroundColor" Value="{StaticResource ColorDarkBackground}" />
+        <Setter Property="Stroke" Value="{StaticResource Gray500}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+        <!--<Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="BorderColor" Value="#2B659B" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>-->
+    </Style>
+
+    <Style x:Key="LblHEntry" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource Gray100}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="OpenSansSemibold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="5,0,0,0" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{StaticResource Gray300}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style x:Key="LabelDisplay" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="14" />
+        <!--<Setter Property="MinimumWidthRequest" Value="250"/>-->
+        <Setter Property="Margin" Value="5,5,5,5" />
+        <Setter Property="Padding" Value="5,0,5,0" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{StaticResource Gray300}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Entry" TargetType="Entry">
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource Gray200}" />
+        <!--<Setter Property="MinimumWidthRequest" Value="250"/>-->
+        <Setter Property="Margin" Value="5,0,0,0" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{StaticResource Gray300}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonPrimary" TargetType="Button">
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Success}" />
+        <Setter Property="FontFamily" Value="OpenSansSemibold" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="MinimumWidthRequest" Value="44" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{StaticResource Gray950}" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource Gray200}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="ButtonInfo"
+        BasedOn="{StaticResource ButtonPrimary}"
+        TargetType="Button">
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Info}" />
+    </Style>
+
+    <Style
+        x:Key="ButtonWarning"
+        BasedOn="{StaticResource ButtonPrimary}"
+        TargetType="Button">
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Warning}" />
+    </Style>
+
+    <Style
+        x:Key="ButtonDanger"
+        BasedOn="{StaticResource ButtonPrimary}"
+        TargetType="Button">
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Danger}" />
+    </Style>
+
+
+    <Style TargetType="DatePicker">
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="14" />
+        <!--<Setter Property="MinimumHeightRequest" Value="44" />-->
+        <Setter Property="MinimumWidthRequest" Value="120" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{StaticResource Gray950}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style ApplyToDerivedTypes="True" TargetType="Shell">
+        <Setter Property="Shell.BackgroundColor" Value="#2E765E" />
+        <Setter Property="Shell.TitleColor" Value="{StaticResource White}" />
+        <!--<Setter Property="Shell.DisabledColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
+        <Setter Property="Shell.UnselectedColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />-->
+        <Setter Property="Shell.NavBarHasShadow" Value="False" />
+        <!--<Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+        <Setter Property="Shell.TabBarForegroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+        <Setter Property="Shell.TabBarTitleColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />-->
+        <!--<Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />-->
+    </Style>
+
+    <Style TargetType="Picker">
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+        <Setter Property="TitleColor" Value="{StaticResource Gray100}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="OpenSansSemibold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{StaticResource Gray600}" />
+                            <Setter Property="TitleColor" Value="{StaticResource Gray600}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
