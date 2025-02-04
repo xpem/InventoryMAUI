@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Inventory.Utils;
+using Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Windows.Input;
 
 namespace Inventory.ViewModels
 {
-    public class SignUpVM(IUserService userServ) : VMBase
+    public partial class SignUpVM(IUserService userServ) : VMBase
     {
         string name, email, password, confirmPassword;
         bool btnIsEnabled = true;

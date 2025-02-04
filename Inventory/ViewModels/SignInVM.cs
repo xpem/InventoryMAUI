@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Inventory.Views;
+using Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Windows.Input;
 
 namespace Inventory.ViewModels
 {
-    public partial class SignInVM : VMBase
+    public partial class SignInVM (IUserService userService): VMBase
     {
         string email = "", password = "", btnSignInText = "Acessar";
 
@@ -28,66 +29,64 @@ namespace Inventory.ViewModels
         public async Task SignUp() => await Shell.Current.GoToAsync($"{nameof(SignUp)}");
 
         [RelayCommand]
-        public async Task UpdatePassword() { }// => await Shell.Current.GoToAsync($"{nameof(UpdatePassword)}");
+        public async Task UpdatePassword() => await Shell.Current.GoToAsync($"{nameof(UpdatePassword)}");
 
         [RelayCommand]
         public async Task SignIn()
         {
             IsBusy = true;
 
-            //try
-            //{
-            //    if (!string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Password))
-            //    {
-            //        if (Connectivity.NetworkAccess == NetworkAccess.Internet)
-            //        {
-            //            if (Password.Length > 3)
-            //            {
-            //                btnSignInText = "Acessando...";
-            //                BtnSignInEnabled = false;
+            try
+            {
+                if (!string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Password))
+                {
+                    if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+                    {
+                        if (Password.Length > 3)
+                        {
+                            btnSignInText = "Acessando...";
+                            BtnSignInEnabled = false;
 
-            //                var resp = await userBLL.SignIn(Email, Password);
+                            var resp = await userService.SignIn(Email, Password);
 
-            //                if (resp.Success)
-            //                {
-            //                    if (resp.Content is not null and int)
-            //                        ((App)App.Current).Uid = (int)resp.Content;
+                            if (resp.Success)
+                            {
+                                if (resp.Content is not null and int)
+                                    ((App)App.Current).Uid = (int)resp.Content;
 
-            //                    await Shell.Current.GoToAsync($"{nameof(FirstSync)}", false);
+                                await Shell.Current.GoToAsync($"{nameof(FirstSync)}", false);
 
-            //                    //await Shell.Current.GoToAsync($"//{nameof(Main)}");
+                            }
+                            else
+                            {
+                                string errorMessage = "";
 
-            //                }
-            //                else
-            //                {
-            //                    string errorMessage = "";
+                                if (resp.Error == Models.Resps.ErrorTypes.WrongEmailOrPassword)
+                                    errorMessage = "Email/senha incorretos";
+                                else if (resp.Error == Models.Resps.ErrorTypes.ServerUnavaliable)
+                                    errorMessage = "Servidor indisponível, favor entrar em contato com o desenvolvedor.";
+                                else errorMessage = "Erro não mapeado, favor entrar em contato com o desenvolvedor.";
 
-            //                    if (resp.Error == Models.Responses.ErrorTypes.WrongEmailOrPassword)
-            //                        errorMessage = "Email/senha incorretos";
-            //                    else if (resp.Error == Models.Responses.ErrorTypes.ServerUnavaliable)
-            //                        errorMessage = "Servidor indisponível, favor entrar em contato com o desenvolvedor.";
-            //                    else errorMessage = "Erro não mapeado, favor entrar em contato com o desenvolvedor.";
+                                await Application.Current.Windows[0].Page.DisplayAlert("Aviso", errorMessage, null, "Ok");
+                            }
 
-            //                    await Application.Current.Windows[0].Page.DisplayAlert("Aviso", errorMessage, null, "Ok");
-            //                }
-
-            //                BtnSignInEnabled = true;
-            //                btnSignInText = "Acessar";
-            //                IsBusy = false;
-            //            }
-            //            else
-            //                await Application.Current.Windows[0].Page.DisplayAlert("Aviso", "Digite uma senha com mais de 3 dígitos", null, "Continuar");
-            //        }
-            //        else
-            //            await Application.Current.Windows[0].Page.DisplayAlert("Aviso", "É necessário ter acesso a internet para efetuar o acesso.", null, "Ok");
-            //    }
-            //    else
-            //        await Application.Current.Windows[0].Page.DisplayAlert("Aviso", "Insira seu email e senha.", null, "Continuar");
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw;
-            //}
+                            BtnSignInEnabled = true;
+                            btnSignInText = "Acessar";
+                            IsBusy = false;
+                        }
+                        else
+                            await Application.Current.Windows[0].Page.DisplayAlert("Aviso", "Digite uma senha com mais de 3 dígitos", null, "Continuar");
+                    }
+                    else
+                        await Application.Current.Windows[0].Page.DisplayAlert("Aviso", "É necessário ter acesso a internet para efetuar o acesso.", null, "Ok");
+                }
+                else
+                    await Application.Current.Windows[0].Page.DisplayAlert("Aviso", "Insira seu email e senha.", null, "Continuar");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
             IsBusy = false;
         }

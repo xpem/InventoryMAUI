@@ -1,4 +1,5 @@
-﻿using Models.Resps;
+﻿using Models.DTO;
+using Models.Resps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Services.Interfaces
         ServResp AddUser(string name, string email, string password);
         Task<ServResp> SignIn(string email, string password);
 
-        Task<User?> GetAsync();
+        Task<UserDTO?> GetAsync();
 
         Task<(bool, string?)> GetUserTokenAsync(string email, string password);
 
