@@ -1,6 +1,7 @@
 ﻿using ApiRepos;
 using ApiRepos.Interfaces;
 using CommunityToolkit.Maui;
+using Inventory.Infra.Services;
 using Inventory.ViewModels;
 using Inventory.Views;
 using LocalRepos;
@@ -47,6 +48,8 @@ namespace Inventory
         {
             services.AddTransientWithShellRoute<SignIn, SignInVM>(nameof(SignIn));
             services.AddTransientWithShellRoute<SignUp, SignUpVM>(nameof(SignUp));
+            services.AddTransientWithShellRoute<FirstSync, FirstSyncVM>(nameof(FirstSync));
+            services.AddTransientWithShellRoute<Main, MainVM>(nameof(Main));
             services.AddTransientWithShellRoute<UpdatePassword, UpdatePasswordVM>(nameof(UpdatePassword));
 
             return services;
@@ -54,20 +57,50 @@ namespace Inventory
 
         public static IServiceCollection AddApiRepos(this IServiceCollection services)
         {
+            services.AddScoped<IHttpClientFunctions, HttpClientFunctions>();
+            services.AddScoped<IHttpClientWithFileFunctions, HttpClientWithFileFunctions>();
+
             services.AddTransient<IUserApiRepo, UserApiRepo>();
+            services.AddTransient<IItemApiRepo, ItemApiRepo>();
+            services.AddTransient<IItemSituationApiRepo, ItemSituationApiRepo>();
+
+            services.AddScoped<IOperationQueueRepo, OperationQueueRepo>();
+            services.AddScoped<IUserApiRepo, UserApiRepo>();
+            //services.AddScoped<ICategoryApiDAL, CategoryApiDAL>();
+            services.AddScoped<ISubCategoryApiRepo, SubCategoryApiRepo>();
+            //services.AddScoped<IAcquisitionTypeApiDAL, AcquisitionTypeApiDAL>();
+
+
             return services;
         }
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            #region infra services
+
+            services.AddScoped<ISyncService, SyncService>();
+
+            #endregion
+
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IBuildDbService, BuildDbService>();
+            services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<IItemSituationService, ItemSituationService>();
+            services.AddTransient<ISubCategoryService, SubCategoryService>();
+
+            services.AddScoped<IOperationService, OperationService>();
+            //services.AddScoped<ICheckServerBLL, CheckServerBLL>();
+            //services.AddScoped<ICategoryBLL, CategoryBLL>();
+            //services.AddScoped<IAcquisitionTypeBLL, AcquisitionTypeBLL>();
+
             return services;
         }
 
         public static IServiceCollection AddLocalRepos(this IServiceCollection services)
         {
             services.AddTransient<IUserRepo, UserRepo>();
+            services.AddScoped<ISubCategoryRepo, SubCategoryRepo>();
+
             return services;
         }
     }

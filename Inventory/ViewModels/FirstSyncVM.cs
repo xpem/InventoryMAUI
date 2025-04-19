@@ -1,6 +1,7 @@
-﻿using Models.DTO;
+﻿using Inventory.Infra.Services;
+using Inventory.Views;
+using Models.DTO;
 using Services.Interfaces;
-using Windows.System;
 
 namespace Inventory.ViewModels
 {

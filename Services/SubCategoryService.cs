@@ -8,6 +8,9 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Services.Handlers;
+using ApiRepos.Interfaces;
+using LocalRepos.Interface;
 
 namespace Services
 {
@@ -17,7 +20,7 @@ namespace Services
         {
             var resp = await subCategoryApiRepo.GetSubCategoriesByCategoryId(categoryId.ToString());
 
-            return ApiResponseHandler.Handler<List<SubCategoryDTO>>(resp);
+            return ApiRespHandler.Handler<List<SubCategoryDTO>>(resp);
         }
 
         public async Task<List<SubCategoryDTO>> GetByCategoryIdAsync(int uid, int page, int categoryId)
@@ -52,7 +55,7 @@ namespace Services
 
         public async Task<ServResp> CreateAsync(int uid, bool isON, SubCategoryDTO subCategoryDTO)
         {
-            subCategoryDTO.UpdatedAt = DateTime.Now;
+            subCategoryDTO.CreatedAt = DateTime.Now;
             subCategoryDTO.UserId = uid;
 
             var isValid = !(await subCategoryRepo.CheckIfExistsByCategoryIdAndName(uid, subCategoryDTO.CategoryId, subCategoryDTO.Name, null));
@@ -184,7 +187,7 @@ namespace Services
         {
             var apiResp = await subCategoryApiRepo.GetByLastUpdateAsync(lastUpdate, page);
 
-            var resp = ApiResponseHandler.Handler<List<SubCategoryDTO>>(apiResp);
+            var resp = ApiRespHandler.Handler<List<SubCategoryDTO>>(apiResp);
 
             if (resp is not null && resp.Success && resp.Content is not null)
             {

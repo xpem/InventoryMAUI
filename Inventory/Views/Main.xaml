@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Inventory.Views.Main"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Components="clr-namespace:Inventory.Components"
+    xmlns:Icons="clr-namespace:Models;assembly=Models"
+    xmlns:model="clr-namespace:Inventory.Infra.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:Inventory.ViewModels"
+    Title="Main"
+    x:DataType="vm:MainVM"
+    Style="{StaticResource ContentPage}">
+    <ContentPage.Resources>
+        <Style x:Key="BtnIcon" TargetType="Button">
+            <Setter Property="CornerRadius" Value="30" />
+            <Setter Property="HeightRequest" Value="50" />
+            <Setter Property="WidthRequest" Value="50" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="TextColor" Value="{StaticResource White}" />
+            <Setter Property="FontFamily" Value="Icons" />
+            <!--<Setter Property="BackgroundColor" Value="{StaticResource SecondaryBackground}" />-->
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            BindingContext="{Binding BindingContext, Source={x:Reference this}, x:DataType=MainVM}"
+            Command="{Binding AppearingCommand}"
+            EventName="Appearing" />
+    </ContentPage.Behaviors>
+    <StackLayout Orientation="Vertical">
+        <StackLayout>
+            <Label
+                Margin="5,5,5,0"
+                FontAttributes="Bold"
+                FontSize="12"
+                Text="Status"
+                TextColor="White" />
+            <ScrollView Orientation="Horizontal">
+                <StackLayout
+                    Padding="0,0,0,15"
+                    BindableLayout.ItemsSource="{Binding ItemsSituationObsList, Mode=TwoWay}"
+                    Orientation="Horizontal">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:UIItemSituation">
+                            <Button
+                                x:Name="BtnItemSituationSelected"
+                                Margin="10,5,0,0"
+                                BackgroundColor="{Binding BackgoundColor}"
+                                Clicked="BtnItemSituationSelected_Clicked"
+                                Text="{Binding Name}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+        <StackLayout Padding="0,5,0,0" VerticalOptions="FillAndExpand">
+            <Border
+                Padding="10,0,10,5"
+                HorizontalOptions="FillAndExpand"
+                Style="{StaticResource BorderPrimary}">
+                <StackLayout Margin="0">
+                    <Border Style="{StaticResource EntryBorders}">
+                        <Entry Style="{StaticResource Entry}" Text="" />
+                    </Border>
+                </StackLayout>
+            </Border>
+            <Grid
+                Margin="5,0,5,0"
+                RowDefinitions="*"
+                VerticalOptions="FillAndExpand">
+                <ListView
+                    x:Name="ItemsListView"
+                    CachingStrategy="RecycleElement"
+                    HasUnevenRows="True"
+                    ItemTapped="ItemsListView_ItemTapped"
+                    ItemsSource="{Binding ItemsObsList}"
+                    RowHeight="65"
+                    SelectionMode="None"
+                    SeparatorVisibility="None"
+                    VerticalOptions="FillAndExpand">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="model:UIItem">
+                            <ViewCell Tapped="ViewCell_Tapped">
+                                <Border
+                                    Margin="5,0,0,5"
+                                    Padding="0"
+                                    Background="{StaticResource Gray100}"
+                                    StrokeShape="RoundRectangle 10"
+                                    VerticalOptions="Start">
+                                    <Grid
+                                        Margin="5,10,5,10"
+                                        ColumnDefinitions="50,auto"
+                                        VerticalOptions="FillAndExpand">
+                                        <Button
+                                            BackgroundColor="{Binding CategoryColor}"
+                                            Style="{StaticResource BtnIcon}"
+                                            Text="{Binding SubCategoryIcon}" />
+                                        <VerticalStackLayout
+                                            Grid.Column="2"
+                                            Margin="10,0,0,0"
+                                            VerticalOptions="Center">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="15"
+                                                LineBreakMode="TailTruncation"
+                                                MaxLines="1"
+                                                Text="{Binding Name}"
+                                                TextColor="{StaticResource Black}" />
+                                            <Label
+                                                FontAttributes="Italic"
+                                                FontSize="12"
+                                                Text="{Binding CategoryAndSubCategory}"
+                                                TextColor="{StaticResource Black}" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Footer>
+                        <Grid Padding="6" IsVisible="{Binding IsBusy}">
+                            <Grid.Triggers>
+                                <Trigger TargetType="Grid" Property="IsVisible" Value="False">
+                                    <Setter Property="HeightRequest" Value="0" />
+                                </Trigger>
+                            </Grid.Triggers>
+                            <ActivityIndicator
+                                HorizontalOptions="Center"
+                                IsRunning="{Binding IsBusy}"
+                                IsVisible="{Binding IsBusy}"
+                                VerticalOptions="Center"
+                                Color="#2196F3" />
+                        </Grid>
+                    </ListView.Footer>
+                </ListView>
+                <Button
+                    Margin="0,10,10,10"
+                    BackgroundColor="{StaticResource Success}"
+                    Command="{Binding ItemAddCommand}"
+                    ContentLayout="Top,0"
+                    CornerRadius="20"
+                    HeightRequest="40"
+                    HorizontalOptions="End"
+                    VerticalOptions="End">
+                    <Button.ImageSource>
+                        <FontImageSource
+                            FontFamily="Icons"
+                            Glyph="{x:Static Icons:Icons.Plus}"
+                            Size="20"
+                            Color="#EDEDED" />
+                    </Button.ImageSource>
+                </Button>
+            </Grid>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

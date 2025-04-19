@@ -19,7 +19,6 @@ namespace Inventory.ViewModels
             {
                 if (isBusy != value)
                 {
-                    isBusy = value;
                     SetProperty(ref (isBusy), value);
                 }
             }

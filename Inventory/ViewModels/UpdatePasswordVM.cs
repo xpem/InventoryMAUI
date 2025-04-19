@@ -1,19 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Inventory.Utils;
 using Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Xml.Linq;
 
 namespace Inventory.ViewModels
 {
     public partial class UpdatePasswordVM(IUserService userService) : VMBase
     {
         string email;
+
         string btnSendEmailText = "Enviar Email";
 
         public string Email { get => email; set { if (email != value) { SetProperty(ref (email), value); } } }

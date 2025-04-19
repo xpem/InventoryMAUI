@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LocalRepos\LocalRepos.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 

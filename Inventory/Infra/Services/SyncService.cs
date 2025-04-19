@@ -1,17 +1,23 @@
 ﻿using Models;
 using Models.DTO;
 using Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.System;
 
-namespace Inventory.UIServices
+namespace Inventory.Infra.Services
 {
-    public class UISyncService(IUserService userService, ISubCategoryService subCategoryService) : ISyncService
+    public interface ISyncService
+    {
+        bool ThreadIsRunning { get; set; }
+
+        Timer Timer { get; set; }
+
+        Task ExecSyncAsync();
+
+        void StartThread();
+
+        void SyncLocalDb(object state);
+    }
+
+    public class SyncService(IUserService userService, ISubCategoryService subCategoryService) : ISyncService
     {
         public static SyncStatus Synchronizing { get; set; }
 
@@ -32,7 +38,6 @@ namespace Inventory.UIServices
                 thread.Start();
             }
         }
-
         private void SetTimer()
         {
             if (!ThreadIsRunning)

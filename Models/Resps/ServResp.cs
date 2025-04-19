@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Models.Resps
+﻿namespace Models.Resps
 {
     public class ServResp
     {
         public bool Success { get; set; }
 
-        public Object? Content { get; set; }
+        public object? Content { get; set; }
 
         public bool TryRefreshToken { get; set; } = false;
 
@@ -20,7 +14,7 @@ namespace Models.Resps
         {
             ErrorTypes.ServerUnavaliable => "Servidor indisponível",
             ErrorTypes.WrongEmailOrPassword => "Senha ou email inválidos",
-            null => String.Empty,
+            null => string.Empty,
             _ => throw new NotImplementedException("Erro não mapeado")
         };
     }
