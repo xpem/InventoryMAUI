@@ -44,7 +44,7 @@ namespace Inventory.ViewModels
 
                 syncService.Timer?.Dispose();
 
-                (App.Current as App).Uid = 0;
+                (App.Current as App).Uid = null;
 
                 await buildDbBLL.CleanLocalDatabase();
 

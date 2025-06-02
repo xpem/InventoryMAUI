@@ -11,12 +11,12 @@
     FlyoutBackgroundColor="#29A0B1"
     Shell.FlyoutBehavior="Flyout">
 
-    <ShellItem FlyoutItemIsVisible="False" Route="SignIn">
-        <ShellContent ContentTemplate="{DataTemplate local:SignIn}" Shell.FlyoutBehavior="Disabled" />
-    </ShellItem>
-
     <ShellItem FlyoutItemIsVisible="False" Route="Main">
         <ShellContent ContentTemplate="{DataTemplate local:Main}" />
+    </ShellItem>
+
+    <ShellItem FlyoutItemIsVisible="False" Route="SignIn">
+        <ShellContent ContentTemplate="{DataTemplate local:SignIn}" Shell.FlyoutBehavior="Disabled" />
     </ShellItem>
 
     <FlyoutItem Title="Home" Icon="{x:Static Icons:Icons.ListAlt}">
@@ -40,7 +40,7 @@
             <Grid
                 ColumnDefinitions="0.2*,0.8*"
                 HeightRequest="50"
-                HorizontalOptions="StartAndExpand">
+                HorizontalOptions="Start">
                 <Label
                     Margin="10,5,10,5"
                     FontFamily="Icons"

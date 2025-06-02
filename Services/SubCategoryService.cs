@@ -153,6 +153,7 @@ namespace Services
 
             return new ServResp() { Success = false, Content = null };
         }
+
         public async Task LocalToApiAsync() => await SyncHelperService.LocalToApiAsync(this, operationQueueRepo);
 
         public async Task ApiToLocalAsync(int uid, DateTime lastUpdate) => await SyncHelperService.ApiToLocalAsync(this, uid, lastUpdate);

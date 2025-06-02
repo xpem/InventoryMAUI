@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalRepos", "LocalRepos\Lo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiRepos", "ApiRepos\ApiRepos.csproj", "{80EEA143-A064-4312-A4B2-7112924BC645}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infra", "Infra", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4D22703D-D4B3-4970-A749-B6A9F45A93A2} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{EBA5DAD1-5B23-434E-B458-4C7358D56A9A} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{4F53EEA8-5AEC-4F9C-B005-6F1928AAA312} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{80EEA143-A064-4312-A4B2-7112924BC645} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {22BDF5BB-F082-47D2-80E8-B7CE9416806B}
 	EndGlobalSection
 EndGlobal

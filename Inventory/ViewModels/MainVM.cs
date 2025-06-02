@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Inventory.Infra.Models;
 using Inventory.Utils;
 using Inventory.Views;
@@ -16,6 +17,20 @@ namespace Inventory.ViewModels
     public partial class MainVM(IItemService itemBLL, IItemSituationService itemSituationBLL, IUserService userBLL) : VMBase
     {
         readonly Color BgButtonSelectedColor = Color.FromArgb("#29A0B1");
+
+        UIItem selectedUiItem;
+
+        public UIItem SelectedUiItem
+        {
+            get => selectedUiItem;
+            set
+            {
+                if(selectedUiItem != value)
+                {
+                    selectedUiItem = value;
+                }
+            }
+        }
 
         List<UIItem> ListAllItems;
 
@@ -79,6 +94,12 @@ namespace Inventory.ViewModels
         [RelayCommand]
         public async Task Appearing()
         {
+            if (((App)Application.Current).Uid is null)
+            {
+                _ = Shell.Current.GoToAsync($"{nameof(SignIn)}");
+                return;
+            }
+
             if (Connectivity.NetworkAccess == NetworkAccess.Internet)
             {
                 IsBusy = true;

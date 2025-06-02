@@ -59,7 +59,6 @@ namespace Inventory.ViewModels
 
                         //_ = AppShellVM.AtualizaUserShowData();
 
-
                         _ = Shell.Current.GoToAsync($"//{nameof(Main)}");
 
                     }
