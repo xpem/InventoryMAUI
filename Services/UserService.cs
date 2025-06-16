@@ -91,7 +91,7 @@ namespace Services
 
                             _ = userRepo.AddUserAsync(user);
 
-                            return new ServResp() { Success = true };
+                            return new ServResp() { Success = true, Content = user.Id };
                         }
                     }
                 }

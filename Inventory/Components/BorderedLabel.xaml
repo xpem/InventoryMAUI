@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="Inventory.Components.BorderedLabel"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Inventory.Components"
+    x:DataType="local:BorderedLabel"
+    x:Name="this"
+    Margin="0,5,0,0">
+    <VerticalStackLayout>
+        <Label Style="{StaticResource LblHEntry}" Text="{Binding Source={x:Reference this}, Path=LabelText}" />
+        <Border Style="{StaticResource LabelBorders}">
+            <Label Style="{StaticResource LabelDisplay}" Text="{Binding Source={x:Reference this}, Path=Text}" />
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

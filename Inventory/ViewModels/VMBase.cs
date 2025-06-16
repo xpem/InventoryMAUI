@@ -9,17 +9,28 @@ namespace Inventory.ViewModels
 {
     public partial class VMBase : ObservableObject
     {
-        bool isBusy;
+        bool isBusy, isNotBusy;
 
-        public bool IsNotBusy => !isBusy;
+        //public bool IsNotBusy
+        //{
+        //    get => isNotBusy; set
+        //    {
+        //        if (isNotBusy != value)
+        //        {
+        //            SetProperty(ref (isNotBusy), value);
+        //        }
+        //    }
+        //}
 
         public bool IsBusy
         {
-            get => isBusy; set
+            get => isBusy;
+            set
             {
                 if (isBusy != value)
                 {
                     SetProperty(ref (isBusy), value);
+                    SetProperty(ref (isNotBusy), !value);
                 }
             }
         }

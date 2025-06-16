@@ -16,7 +16,7 @@
     </Style>
 
     <Style x:Key="VerticalStackLayoutPrimary" TargetType="VerticalStackLayout">
-        <Setter Property="VerticalOptions" Value="FillAndExpand" />
+        <Setter Property="VerticalOptions" Value="Fill" />
     </Style>
 
     <Style x:Key="BorderPickerBordered" TargetType="Border">
@@ -41,7 +41,7 @@
 
     <Style x:Key="EntryBorders" TargetType="Border">
         <Setter Property="Padding" Value="-5,0,0,0" />
-        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
         <Setter Property="BackgroundColor" Value="{StaticResource ColorDarkBackground}" />
         <Setter Property="Stroke" Value="{StaticResource ActiveColor}" />
         <Setter Property="StrokeShape" Value="RoundRectangle 5" />
@@ -61,7 +61,7 @@
 
     <Style x:Key="LabelBorders" TargetType="Border">
         <Setter Property="Padding" Value="-5,0,0,0" />
-        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
         <Setter Property="BackgroundColor" Value="{StaticResource ColorDarkBackground}" />
         <Setter Property="Stroke" Value="{StaticResource Gray500}" />
         <Setter Property="StrokeShape" Value="RoundRectangle 5" />

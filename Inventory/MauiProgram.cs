@@ -3,7 +3,9 @@ using ApiRepos.Interfaces;
 using CommunityToolkit.Maui;
 using Inventory.Infra.Services;
 using Inventory.ViewModels;
+using Inventory.ViewModels.Item;
 using Inventory.Views;
+using Inventory.Views.Item;
 using LocalRepos;
 using LocalRepos.Interface;
 using Microsoft.Extensions.Logging;
@@ -51,6 +53,8 @@ namespace Inventory
             services.AddTransientWithShellRoute<FirstSync, FirstSyncVM>(nameof(FirstSync));
             services.AddTransientWithShellRoute<Main, MainVM>(nameof(Main));
             services.AddTransientWithShellRoute<UpdatePassword, UpdatePasswordVM>(nameof(UpdatePassword));
+            services.AddTransientWithShellRoute<ItemDisplay, ItemDisplayVM>(nameof(ItemDisplay));
+            services.AddTransientWithShellRoute<ItemEdit, ItemEditVM>(nameof(ItemEdit));
 
             return services;
         }
@@ -68,8 +72,7 @@ namespace Inventory
             services.AddScoped<IUserApiRepo, UserApiRepo>();
             //services.AddScoped<ICategoryApiDAL, CategoryApiDAL>();
             services.AddScoped<ISubCategoryApiRepo, SubCategoryApiRepo>();
-            //services.AddScoped<IAcquisitionTypeApiDAL, AcquisitionTypeApiDAL>();
-
+            services.AddScoped<IAcquisitionTypeApiRepo, AcquisitionTypeApiRepo>();
 
             return services;
         }
@@ -91,7 +94,7 @@ namespace Inventory
             services.AddScoped<IOperationService, OperationService>();
             //services.AddScoped<ICheckServerBLL, CheckServerBLL>();
             //services.AddScoped<ICategoryBLL, CategoryBLL>();
-            //services.AddScoped<IAcquisitionTypeBLL, AcquisitionTypeBLL>();
+            services.AddScoped<IAcquisitionTypeService, AcquisitionTypeService>();
 
             return services;
         }

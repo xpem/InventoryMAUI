@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Inventory.Infra.Models;
 using Inventory.Utils;
 using Inventory.Views;
+using Inventory.Views.Item;
 using Models;
 using Models.Exceptions;
 using Models.Item;
@@ -28,6 +29,8 @@ namespace Inventory.ViewModels
                 if(selectedUiItem != value)
                 {
                     selectedUiItem = value;
+
+                    Shell.Current.GoToAsync($"{nameof(ItemDisplay)}?Id={selectedUiItem.Id}", true);
                 }
             }
         }
@@ -94,7 +97,7 @@ namespace Inventory.ViewModels
         [RelayCommand]
         public async Task Appearing()
         {
-            if (((App)Application.Current).Uid is null)
+            if (((App)App.Current).Uid is null)
             {
                 _ = Shell.Current.GoToAsync($"{nameof(SignIn)}");
                 return;
@@ -116,7 +119,7 @@ namespace Inventory.ViewModels
 
                     var respItems = await itemBLL.GetItemsAllAsync();
 
-                    List<Item> itemList = [];
+                    List<Models.Item.Item> itemList = [];
                     if (respItems is not null)
                     {
                         itemList = respItems;

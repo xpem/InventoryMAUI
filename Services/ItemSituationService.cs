@@ -2,12 +2,6 @@
 using Models.Item;
 using Models.Resps;
 using Services.Handlers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UsersManagement.Model;
 
 namespace Services
 {
