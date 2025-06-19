@@ -4,12 +4,7 @@ using LocalRepos.Interface;
 using Models.DTO;
 using Models.Resps;
 using Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 
 namespace Services
 {
@@ -96,9 +91,9 @@ namespace Services
                     }
                 }
                 //maybe use a errorcodes instead a message?
-                else if (!success && userTokenRes is not null && userTokenRes == "User/Password incorrect")
-                    return new ServResp() { Success = false, Error = ErrorTypes.WrongEmailOrPassword };
-                else throw new Exception("Erro não mapeado");
+                else return !success && userTokenRes is not null && userTokenRes == "User/Password incorrect"
+                    ? new ServResp() { Success = false, Error = ErrorTypes.WrongEmailOrPassword }
+                    : throw new Exception("Erro não mapeado");
 
                 return new ServResp() { Success = false, Error = ErrorTypes.Unknown };
             }

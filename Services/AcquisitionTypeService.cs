@@ -2,11 +2,6 @@
 using Models.Item;
 using Models.Resps;
 using Services.Handlers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services
 {
@@ -19,7 +14,7 @@ namespace Services
     {
         public async Task<ServResp> GetAcquisitionType()
         {
-            var resp = await acquisitionTypeApiRepo.GetAcquisitionType();
+            ApiResp resp = await acquisitionTypeApiRepo.GetAcquisitionType();
 
             return ApiRespHandler.Handler<List<AcquisitionType>>(resp);
         }

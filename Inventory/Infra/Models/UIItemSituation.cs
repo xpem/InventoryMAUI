@@ -10,7 +10,7 @@ namespace Inventory.Infra.Models
         {
             get => id; set
             {
-                if (id != value) { SetProperty(ref (id), value); }
+                if (id != value) { SetProperty(ref id, value); }
             }
         }
 
@@ -20,7 +20,7 @@ namespace Inventory.Infra.Models
         {
             get => name; set
             {
-                if (name != value) { SetProperty(ref (name), value);  }
+                if (name != value) { SetProperty(ref name, value); }
             }
         }
 
@@ -33,7 +33,7 @@ namespace Inventory.Infra.Models
             {
                 if (backgoundColor != value)
                 {
-                    SetProperty(ref (backgoundColor), value);
+                    SetProperty(ref backgoundColor, value);
                 }
             }
         }

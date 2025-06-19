@@ -4,8 +4,10 @@ using CommunityToolkit.Maui;
 using Inventory.Infra.Services;
 using Inventory.ViewModels;
 using Inventory.ViewModels.Item;
+using Inventory.ViewModels.Item.Selectors;
 using Inventory.Views;
 using Inventory.Views.Item;
+using Inventory.Views.Item.Selectors;
 using LocalRepos;
 using LocalRepos.Interface;
 using Microsoft.Extensions.Logging;
@@ -18,7 +20,7 @@ namespace Inventory
     {
         public static MauiApp CreateMauiApp()
         {
-            var builder = MauiApp.CreateBuilder();
+            MauiAppBuilder builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
@@ -55,6 +57,8 @@ namespace Inventory
             services.AddTransientWithShellRoute<UpdatePassword, UpdatePasswordVM>(nameof(UpdatePassword));
             services.AddTransientWithShellRoute<ItemDisplay, ItemDisplayVM>(nameof(ItemDisplay));
             services.AddTransientWithShellRoute<ItemEdit, ItemEditVM>(nameof(ItemEdit));
+            services.AddTransientWithShellRoute<CategorySelector, CategorySelectorVM>(nameof(CategorySelector));
+            services.AddTransientWithShellRoute<SubCategorySelector, SubCategorySelectorVM>(nameof(SubCategorySelector));
 
             return services;
         }
@@ -70,7 +74,7 @@ namespace Inventory
 
             services.AddScoped<IOperationQueueRepo, OperationQueueRepo>();
             services.AddScoped<IUserApiRepo, UserApiRepo>();
-            //services.AddScoped<ICategoryApiDAL, CategoryApiDAL>();
+            services.AddScoped<ICategoryApiRepo, CategoryApiRepo>();
             services.AddScoped<ISubCategoryApiRepo, SubCategoryApiRepo>();
             services.AddScoped<IAcquisitionTypeApiRepo, AcquisitionTypeApiRepo>();
 
@@ -79,11 +83,7 @@ namespace Inventory
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            #region infra services
-
             services.AddScoped<ISyncService, SyncService>();
-
-            #endregion
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IBuildDbService, BuildDbService>();
@@ -93,7 +93,7 @@ namespace Inventory
 
             services.AddScoped<IOperationService, OperationService>();
             //services.AddScoped<ICheckServerBLL, CheckServerBLL>();
-            //services.AddScoped<ICategoryBLL, CategoryBLL>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IAcquisitionTypeService, AcquisitionTypeService>();
 
             return services;

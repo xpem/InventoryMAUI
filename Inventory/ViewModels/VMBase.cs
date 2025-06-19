@@ -1,9 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Inventory.ViewModels
 {
@@ -11,16 +6,16 @@ namespace Inventory.ViewModels
     {
         bool isBusy, isNotBusy;
 
-        //public bool IsNotBusy
-        //{
-        //    get => isNotBusy; set
-        //    {
-        //        if (isNotBusy != value)
-        //        {
-        //            SetProperty(ref (isNotBusy), value);
-        //        }
-        //    }
-        //}
+        public bool IsNotBusy
+        {
+            get => isNotBusy; set
+            {
+                if (isNotBusy != value)
+                {
+                    SetProperty(ref isNotBusy, value);
+                }
+            }
+        }
 
         public bool IsBusy
         {
@@ -29,8 +24,8 @@ namespace Inventory.ViewModels
             {
                 if (isBusy != value)
                 {
-                    SetProperty(ref (isBusy), value);
-                    SetProperty(ref (isNotBusy), !value);
+                    SetProperty(ref isBusy, value);
+                    IsNotBusy = !value;
                 }
             }
         }

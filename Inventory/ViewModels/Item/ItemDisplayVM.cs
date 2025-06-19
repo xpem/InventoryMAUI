@@ -6,13 +6,7 @@ using Models.Item;
 using Models.Item.Files;
 using Models.Resps;
 using Services.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Inventory.ViewModels.Item
 {
@@ -29,7 +23,7 @@ namespace Inventory.ViewModels.Item
         bool resaleSituation, withdrawalDateIsVisible, crvwIsVisible;
 
         [ObservableProperty]
-        ObservableCollection<UIImagePath> imagePathsObsCol;
+        public ObservableCollection<UIImagePath> imagePathsObsCol = [];
 
         #endregion
 

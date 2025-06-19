@@ -26,16 +26,13 @@ namespace ApiRepos
 
                 HttpResponseMessage httpResponse = await httpClient.GetAsync(ApiKeys.ApiAddress + "/imalive");
 
-                if (httpResponse != null && httpResponse.IsSuccessStatusCode && !string.IsNullOrEmpty(await httpResponse.Content.ReadAsStringAsync())) return true;
-
-                return false;
+                return httpResponse != null && httpResponse.IsSuccessStatusCode && !string.IsNullOrEmpty(await httpResponse.Content.ReadAsStringAsync());
             }
             catch (Exception ex)
             {
-                if (ex.InnerException is not null && (ex.InnerException.Message == "Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente." || ex.InnerException.Message.Contains("Este host não é conhecido.")))
-                    return false;
-
-                throw ex;
+                return ex.InnerException is not null && (ex.InnerException.Message == "Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente." || ex.InnerException.Message.Contains("Este host não é conhecido."))
+                    ? false
+                    : throw ex;
             }
         }
 
@@ -89,10 +86,9 @@ namespace ApiRepos
             }
             catch (Exception ex)
             {
-                if (ex.InnerException is not null && (ex.InnerException.Message == "Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente." || ex.InnerException.Message.Contains("Este host não é conhecido.")))
-                    return new ApiResp() { Success = false, Content = null, Error = ErrorTypes.ServerUnavaliable };
-
-                throw ex;
+                return ex.InnerException is not null && (ex.InnerException.Message == "Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente." || ex.InnerException.Message.Contains("Este host não é conhecido."))
+                    ? new ApiResp() { Success = false, Content = null, Error = ErrorTypes.ServerUnavaliable }
+                    : throw ex;
             }
         }
 

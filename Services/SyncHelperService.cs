@@ -2,11 +2,6 @@
 using Models.DTO;
 using Models.Resps;
 using Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services
 {
@@ -22,11 +17,11 @@ namespace Services
             {
                 while (true)
                 {
-                    var apiRespList = await requester.GetByLastUpdateAsync(lastUpdate, page);
+                    List<DTOBase>? apiRespList = await requester.GetByLastUpdateAsync(lastUpdate, page);
 
                     if (apiRespList is null) break;
 
-                    foreach (var apiRespObj in apiRespList)
+                    foreach (DTOBase? apiRespObj in apiRespList)
                     {
                         if (apiRespObj is null) throw new ArgumentNullException(nameof(apiRespObj));
 
@@ -66,7 +61,7 @@ namespace Services
         {
             List<ApiOperationDTO> pendingOperations = await operationQueueRepo.GetPendingOperationsByStatusAsync(ApiOperationStatus.Pending);
 
-            foreach (var pendingOperation in pendingOperations)
+            foreach (ApiOperationDTO pendingOperation in pendingOperations)
             {
                 await operationQueueRepo.UpdateOperationStatusAsync(ApiOperationStatus.Processing, pendingOperation.Id);
 
@@ -88,9 +83,9 @@ namespace Services
                         {
                             DTOBase? insertedObj = await requester.GetByLocalIdAsync(localObj.UserId, localObj.LocalId.Value);
 
-                            if (insertedObj is not null)
-                                servResp = await requester.UpdateApiAsync(insertedObj);
-                            else throw new NullReferenceException("Livro inserido não encontrado " + localObj.LocalId);
+                            servResp = insertedObj is not null
+                                ? await requester.UpdateApiAsync(insertedObj)
+                                : throw new NullReferenceException("Livro inserido não encontrado " + localObj.LocalId);
                         }
                         else
                             servResp = await requester.UpdateApiAsync(localObj);

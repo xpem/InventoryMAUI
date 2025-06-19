@@ -32,9 +32,9 @@ public partial class BorderedCurrencyEntry : ContentView
 
     private void EntryCurrency_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (this.EntryCurrency != null)
+        if (EntryCurrency != null)
         {
-            string valueFromString = OnlyDigits().Replace(this.EntryCurrency.Text.ToString(), "");
+            string valueFromString = OnlyDigits().Replace(EntryCurrency.Text.ToString(), "");
             string _value;
 
             if (valueFromString.Length <= 0)
@@ -51,15 +51,15 @@ public partial class BorderedCurrencyEntry : ContentView
                     else
                     {
 
-                        var decValue = (Convert.ToDecimal(valueFromString) / 100m);
-                        var currencyFormatValue = decValue.ToString("N2", new CultureInfo("pt-BR", false));
+                        decimal decValue = Convert.ToDecimal(valueFromString) / 100m;
+                        string currencyFormatValue = decValue.ToString("N2", new CultureInfo("pt-BR", false));
 
                         _value = currencyFormatValue;
                     }
                 }
             }
-            this.EntryCurrency.Text = _value;
-            this.EntryCurrency.CursorPosition = this.EntryCurrency.Text?.Length ?? 0;
+            EntryCurrency.Text = _value;
+            EntryCurrency.CursorPosition = EntryCurrency.Text?.Length ?? 0;
         }
     }
 }

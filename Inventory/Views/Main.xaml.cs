@@ -1,6 +1,4 @@
-using Inventory.Infra.Models;
 using Inventory.ViewModels;
-using Inventory.Views.Item;
 
 namespace Inventory.Views;
 
@@ -17,7 +15,7 @@ public partial class Main : ContentPage
 
     private void BtnItemSituationSelected_Clicked(object sender, EventArgs e)
     {
-        var view = sender as View;
+        View? view = sender as View;
         vm.ItemSituationSelectdCommand.Execute(view.BindingContext);
     }
 }

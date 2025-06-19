@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Inventory.Infra.Models;
 using Inventory.Utils;
 using Inventory.Views;
@@ -26,7 +25,7 @@ namespace Inventory.ViewModels
             get => selectedUiItem;
             set
             {
-                if(selectedUiItem != value)
+                if (selectedUiItem != value)
                 {
                     selectedUiItem = value;
 
@@ -37,6 +36,7 @@ namespace Inventory.ViewModels
 
         List<UIItem> ListAllItems;
 
+
         ObservableCollection<UIItem> itemsObsList;
 
         public ObservableCollection<UIItem> ItemsObsList
@@ -44,7 +44,7 @@ namespace Inventory.ViewModels
             get => itemsObsList;
             set
             {
-                SetProperty(ref (itemsObsList), value);
+                SetProperty(ref itemsObsList, value);
             }
         }
 
@@ -53,11 +53,11 @@ namespace Inventory.ViewModels
         UIItemSituation SelectedUIItemsStatus { get; set; }
 
         [RelayCommand]
-        public Task ItemSituationSelectd(object e)
+        public void ItemSituationSelectd(object e)
         {
-            var itemSituation = e as UIItemSituation;
+            UIItemSituation? itemSituation = e as UIItemSituation;
 
-            var bgcolor = itemSituation.BackgoundColor;
+            Color bgcolor = itemSituation.BackgoundColor;
 
             if (!bgcolor.Equals(BgButtonSelectedColor))
             {
@@ -73,12 +73,11 @@ namespace Inventory.ViewModels
 
             FilterItemsList();
 
-            //OnPropertyChanged(nameof(ItemsSituationObsList));
-            return Task.CompletedTask;
+            OnPropertyChanged(nameof(ItemsSituationObsList));
         }
 
         [RelayCommand]
-        public async Task ItemAdd() => await Task.CompletedTask;//await Shell.Current.GoToAsync($"{nameof(ItemEdit)}");
+        public async Task ItemAdd() => await Shell.Current.GoToAsync($"{nameof(ItemEdit)}");
 
         private void FilterItemsList()
         {
@@ -86,7 +85,7 @@ namespace Inventory.ViewModels
 
             ItemsObsList = [];
 
-            foreach (var i in ListAllItems.Where(x => x.SituationId == SelectedUIItemsStatus.Id))//SelectedUIItemsStatus.Any(y => y.Id == x.SituationId)))
+            foreach (UIItem? i in ListAllItems.Where(x => x.SituationId == SelectedUIItemsStatus.Id))//SelectedUIItemsStatus.Any(y => y.Id == x.SituationId)))
             {
                 ItemsObsList.Add(i);
             }
@@ -117,13 +116,13 @@ namespace Inventory.ViewModels
                     if (respItemSituation is not null && respItemSituation.Success)
                         itemSituationList = respItemSituation.Content as List<ItemSituation>;
 
-                    var respItems = await itemBLL.GetItemsAllAsync();
+                    List<Models.Item.Item>? respItems = await itemBLL.GetItemsAllAsync();
 
                     List<Models.Item.Item> itemList = [];
                     if (respItems is not null)
                     {
                         itemList = respItems;
-                        itemList = [.. (from item in itemList orderby item.CreatedAt descending select item)];
+                        itemList = [.. from item in itemList orderby item.CreatedAt descending select item];
                     }
 
                     if (itemSituationList is not null && itemSituationList.Count > 0)
@@ -133,10 +132,7 @@ namespace Inventory.ViewModels
 
                         for (int i = 0; i < itemSituationList.Count; i++)
                         {
-                            if (itemSituationList[i].Sequence is 1)
-                                backgoundColor = Color.FromArgb("#29A0B1");
-                            else
-                                backgoundColor = Color.FromArgb("#919191");
+                            backgoundColor = itemSituationList[i].Sequence is 1 ? Color.FromArgb("#29A0B1") : Color.FromArgb("#919191");
 
                             textSituationItem = $"{itemSituationList[i].Name} ({itemList.Where(x => x.Situation.Id == itemSituationList[i].Id).Count()})";
 
@@ -165,7 +161,7 @@ namespace Inventory.ViewModels
 
                         string IconUniCode;
                         if (itemList is not null)
-                            foreach (var item in itemList)
+                            foreach (Models.Item.Item item in itemList)
                             {
                                 string categoryAndSubCategory = "";
 
@@ -174,10 +170,9 @@ namespace Inventory.ViewModels
                                 if (item.Category.SubCategory is not null)
                                     categoryAndSubCategory += "/" + item.Category.SubCategory.Name;
 
-                                if (item.Category.SubCategory is null || item.Category.SubCategory.IconName is null)
-                                    IconUniCode = Icons.Tag;
-                                else
-                                    IconUniCode = SubCategoryIconsList.GetIconCode(item.Category.SubCategory.IconName);
+                                IconUniCode = item.Category.SubCategory is null || item.Category.SubCategory.IconName is null
+                                    ? Icons.Tag
+                                    : SubCategoryIconsList.GetIconCode(item.Category.SubCategory.IconName);
 
                                 UIItem uIItem = new()
                                 {

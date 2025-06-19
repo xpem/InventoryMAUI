@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+             x:Class="Inventory.Views.Item.Selectors.CategorySelector"  
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"  
+             xmlns:Icons="clr-namespace:Models;assembly=Models"  
+             xmlns:components="clr-namespace:Inventory.Components;assembly=Inventory"  
+             xmlns:model="clr-namespace:Inventory.Infra.Models"  
+             xmlns:vm="clr-namespace:Inventory.ViewModels.Item.Selectors"  
+             Style="{StaticResource ContentPage}"  
+             x:DataType="vm:CategorySelectorVM"
+             x:Name="this"  
+             Title="CategorySelector">  
+    <ContentPage.Behaviors>  
+        <toolkit:EventToCommandBehavior              
+            BindingContext="{Binding BindingContext, Source={x:Reference this}}"  
+            Command="{Binding AppearingCommand}"  
+            EventName="Appearing"/>  
+    </ContentPage.Behaviors>  
+    <ContentPage.Resources>  
+        <Style x:Key="Icon" TargetType="Label">  
+            <Setter Property="TextColor" Value="Black" />  
+            <Setter Property="HorizontalOptions" Value="Start" />  
+            <Setter Property="VerticalOptions" Value="Center" />  
+            <Setter Property="FontSize" Value="20" />  
+            <Setter Property="FontFamily" Value="Icons" />  
+            <Setter Property="Padding" Value="0,0,0,0" />  
+        </Style>  
+    </ContentPage.Resources>  
+    <VerticalStackLayout>  
+        <CollectionView  
+            ItemsSource="{Binding CategoriesObsList}"  
+            SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+            SelectionMode="Single"  
+            VerticalOptions="Start">  
+            <CollectionView.ItemTemplate>  
+                <DataTemplate x:DataType="model:UICategory">  
+                    <Border  
+                            Margin="5,0,5,5"  
+                            Padding="0"  
+                            Background="{StaticResource Gray100}"  
+                            StrokeShape="RoundRectangle 10">  
+                        <Grid  
+                                BackgroundColor="{StaticResource Gray100}"  
+                                ColumnDefinitions="40,*,40"  
+                                RowDefinitions="*">  
+                            <Ellipse  
+                                    Fill="{Binding Color}"  
+                                    HeightRequest="30"  
+                                    WidthRequest="30" />  
+                            <FlexLayout  
+                                    Grid.Column="1"  
+                                    Margin="5"  
+                                    HeightRequest="40"  
+                                    HorizontalOptions="Start"  
+                                    VerticalOptions="Center">  
+                                <Label  
+                                        FontAttributes="Bold"  
+                                        FontSize="15"  
+                                        Text="{Binding Name}"  
+                                        TextColor="{StaticResource Black}"  
+                                        VerticalOptions="Center" />  
+                            </FlexLayout>  
+                            <Label  
+                                    Grid.Column="2"  
+                                    IsVisible="{Binding HaveSubcategories}"  
+                                    Style="{StaticResource Icon}"  
+                                    Text="{x:Static Icons:Icons.AngleRight}" />  
+                        </Grid>  
+                    </Border>  
+                </DataTemplate>  
+            </CollectionView.ItemTemplate>  
+            <CollectionView.Footer>  
+                <Grid Padding="6" IsVisible="{Binding IsBusy}">  
+                    <Grid.Triggers>  
+                        <Trigger TargetType="Grid" Property="IsVisible" Value="False">  
+                            <Setter Property="HeightRequest" Value="0" />  
+                        </Trigger>  
+                    </Grid.Triggers>  
+                    <ActivityIndicator  
+                        HorizontalOptions="Center"  
+                        IsRunning="{Binding IsBusy}"  
+                        IsVisible="{Binding IsBusy}"  
+                        VerticalOptions="Center"  
+                        Color="#2196F3" />  
+                </Grid>  
+            </CollectionView.Footer>  
+        </CollectionView>  
+    </VerticalStackLayout>  
+</ContentPage>

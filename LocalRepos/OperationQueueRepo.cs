@@ -1,11 +1,6 @@
 ﻿using LocalRepos.Interface;
 using Microsoft.EntityFrameworkCore;
 using Models.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LocalRepos
 {
@@ -13,7 +8,7 @@ namespace LocalRepos
     {
         public async Task UpdateOperationStatusAsync(ApiOperationStatus operationStatus, int operationId)
         {
-            using var context = bookshelfDbContext.CreateDbContext();
+            using InventoryDbContext context = bookshelfDbContext.CreateDbContext();
 
             await context.ApiOperationQueue.Where(x => x.Id == operationId)
                 .ExecuteUpdateAsync(y => y
@@ -23,13 +18,13 @@ namespace LocalRepos
 
         public async Task<List<ApiOperationDTO>> GetPendingOperationsByStatusAsync(ApiOperationStatus operationStatus)
         {
-            using var context = bookshelfDbContext.CreateDbContext();
+            using InventoryDbContext context = bookshelfDbContext.CreateDbContext();
             return await context.ApiOperationQueue.Where(x => x.Status == operationStatus).OrderBy(x => x.CreatedAt).ToListAsync();
         }
 
         public async Task InsertOperationInQueueAsync(ApiOperationDTO apiOperation)
         {
-            using var context = bookshelfDbContext.CreateDbContext();
+            using InventoryDbContext context = bookshelfDbContext.CreateDbContext();
             context.ApiOperationQueue.Add(apiOperation);
 
             await context.SaveChangesAsync();
@@ -37,13 +32,13 @@ namespace LocalRepos
 
         public async Task<bool> CheckIfHasPendingOperationWithObjectId(string objectId)
         {
-            using var context = bookshelfDbContext.CreateDbContext();
+            using InventoryDbContext context = bookshelfDbContext.CreateDbContext();
             return await context.ApiOperationQueue.AnyAsync(x => x.ObjectId == objectId && x.Status == ApiOperationStatus.Pending);
         }
 
         public async Task<bool> CheckIfHasPendingOperation()
         {
-            using var context = bookshelfDbContext.CreateDbContext();
+            using InventoryDbContext context = bookshelfDbContext.CreateDbContext();
             return await context.ApiOperationQueue.AnyAsync(x => x.Status == ApiOperationStatus.Pending);
         }
     }

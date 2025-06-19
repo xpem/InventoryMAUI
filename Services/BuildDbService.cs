@@ -3,11 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Models;
 using Models.DTO;
 using Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services
 {
@@ -15,7 +10,7 @@ namespace Services
     {
         public void Init()
         {
-            using var context = DbCtx.CreateDbContext();
+            using InventoryDbContext context = DbCtx.CreateDbContext();
             bool exists = Directory.Exists(FilePaths.DbPath);
 
             if (!exists)
@@ -50,7 +45,7 @@ namespace Services
 
         public async Task CleanLocalDatabase()
         {
-            using var context = DbCtx.CreateDbContext();
+            using InventoryDbContext context = DbCtx.CreateDbContext();
             context.User.RemoveRange(context.User);
             context.SubCategory.RemoveRange(context.SubCategory);
 

@@ -28,7 +28,7 @@ namespace Inventory
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            var appShellVM = new AppShellVM(SyncServices, BuildDbBLL, UserBLL);
+            AppShellVM appShellVM = new AppShellVM(SyncServices, BuildDbBLL, UserBLL);
 
             BuildDbBLL.Init();
 

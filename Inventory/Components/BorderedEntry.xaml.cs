@@ -2,10 +2,10 @@ namespace Inventory.Components;
 
 public partial class BorderedEntry : VerticalStackLayout
 {
-	public BorderedEntry()
-	{
-		InitializeComponent();
-	}
+    public BorderedEntry()
+    {
+        InitializeComponent();
+    }
 
     public static readonly BindableProperty TextProperty = BindableProperty.Create(
         propertyName: nameof(Text), returnType: typeof(string), declaringType: typeof(BorderedEntry), defaultValue: null, defaultBindingMode: BindingMode.TwoWay);

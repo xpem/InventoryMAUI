@@ -1,29 +1,22 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Inventory.Views;
 using Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Inventory.ViewModels
 {
-    public partial class SignInVM (IUserService userService): VMBase
+    public partial class SignInVM(IUserService userService) : VMBase
     {
         string email = "", password = "", btnSignInText = "Acessar";
 
         bool btnSignInEnabled = true;
 
-        public string Email { get => email; set { if (email != value) { email = value; SetProperty(ref (email), value); } } }
+        public string Email { get => email; set { if (email != value) { email = value; SetProperty(ref email, value); } } }
 
-        public string Password { get => password; set { if (password != value) { password = value; SetProperty(ref (password), value); } } }
+        public string Password { get => password; set { if (password != value) { password = value; SetProperty(ref password, value); } } }
 
-        public string BtnSignInText { get => btnSignInText; set { if (btnSignInText != value) { btnSignInText = value; SetProperty(ref (btnSignInText), value); } } }
+        public string BtnSignInText { get => btnSignInText; set { if (btnSignInText != value) { btnSignInText = value; SetProperty(ref btnSignInText, value); } } }
 
-        public bool BtnSignInEnabled { get => btnSignInEnabled; set { if (btnSignInEnabled != value) { btnSignInEnabled = value; SetProperty(ref (btnSignInEnabled), value); } } }
+        public bool BtnSignInEnabled { get => btnSignInEnabled; set { if (btnSignInEnabled != value) { btnSignInEnabled = value; SetProperty(ref btnSignInEnabled, value); } } }
 
         [RelayCommand]
         public async Task SignUp() => await Shell.Current.GoToAsync($"{nameof(SignUp)}");
@@ -47,7 +40,7 @@ namespace Inventory.ViewModels
                             btnSignInText = "Acessando...";
                             BtnSignInEnabled = false;
 
-                            var resp = await userService.SignIn(Email, Password);
+                            Models.Resps.ServResp resp = await userService.SignIn(Email, Password);
 
                             if (resp.Success)
                             {
@@ -59,14 +52,11 @@ namespace Inventory.ViewModels
                             }
                             else
                             {
-                                string errorMessage = "";
-
-                                if (resp.Error == Models.Resps.ErrorTypes.WrongEmailOrPassword)
-                                    errorMessage = "Email/senha incorretos";
-                                else if (resp.Error == Models.Resps.ErrorTypes.ServerUnavaliable)
-                                    errorMessage = "Servidor indisponível, favor entrar em contato com o desenvolvedor.";
-                                else errorMessage = "Erro não mapeado, favor entrar em contato com o desenvolvedor.";
-
+                                string errorMessage = resp.Error == Models.Resps.ErrorTypes.WrongEmailOrPassword
+                                    ? "Email/senha incorretos"
+                                    : resp.Error == Models.Resps.ErrorTypes.ServerUnavaliable
+                                    ? "Servidor indisponível, favor entrar em contato com o desenvolvedor."
+                                    : "Erro não mapeado, favor entrar em contato com o desenvolvedor.";
                                 await Application.Current.Windows[0].Page.DisplayAlert("Aviso", errorMessage, null, "Ok");
                             }
 

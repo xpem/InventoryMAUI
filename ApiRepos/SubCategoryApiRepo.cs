@@ -1,13 +1,8 @@
-﻿using Models.DTO;
-using Models.Resps;
+﻿using ApiRepos.Interfaces;
 using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Models.DTO;
+using Models.Resps;
 using System.Text.Json;
-using System.Threading.Tasks;
-using ApiRepos.Interfaces;
 
 namespace ApiRepos
 {

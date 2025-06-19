@@ -4,10 +4,10 @@ namespace Inventory.Views.Item;
 
 public partial class ItemDisplay : ContentPage
 {
-	public ItemDisplay(ItemDisplayVM itemDisplayVM)
-	{
-		InitializeComponent();
+    public ItemDisplay(ItemDisplayVM itemDisplayVM)
+    {
+        InitializeComponent();
 
-		BindingContext = itemDisplayVM;
+        BindingContext = itemDisplayVM;
     }
 }

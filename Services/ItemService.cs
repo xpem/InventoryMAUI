@@ -17,7 +17,7 @@ namespace Services
             ApiResp totalsResp = await itemApiRepo.GetTotalItensAsync();
             List<Item> items = [];
 
-            var itemTotalsBLLResponse = ApiRespHandler.Handler<ItemTotals>(totalsResp);
+            ServResp itemTotalsBLLResponse = ApiRespHandler.Handler<ItemTotals>(totalsResp);
 
             if (itemTotalsBLLResponse.Success)
             {
@@ -26,7 +26,7 @@ namespace Services
                 for (int i = 1; i <= itemTotals?.TotalPages; i++)
                 {
                     ApiResp resp = await itemApiRepo.GetPaginatedItemsAsync(i);
-                    var paginatedItemsBLLResponse = ApiRespHandler.Handler<List<Item>>(resp);
+                    ServResp paginatedItemsBLLResponse = ApiRespHandler.Handler<List<Item>>(resp);
 
                     if (paginatedItemsBLLResponse.Success)
                         if (paginatedItemsBLLResponse.Content is List<Item> pageItems)
@@ -52,12 +52,9 @@ namespace Services
         {
             ApiResp? resp = await itemApiRepo.AddItemAsync(item);
 
-            if (resp is not null && resp.Success && resp.Content is not null and string)
-            {
-                return ApiRespHandler.Handler<Item>(resp);
-            }
-
-            return new ServResp() { Success = false, Content = null };
+            return resp is not null && resp.Success && resp.Content is not null and string
+                ? ApiRespHandler.Handler<Item>(resp)
+                : new ServResp() { Success = false, Content = null };
         }
 
         public async Task<ServResp> AltItemAsync(Item item)
@@ -68,9 +65,9 @@ namespace Services
             {
                 JsonNode? jResp = JsonNode.Parse(resp.Content as string);
 
-                if (jResp is not null)
-                    return new ServResp() { Success = resp.Success, Content = null };
-                else return new ServResp() { Success = false, Content = resp.Content };
+                return jResp is not null
+                    ? new ServResp() { Success = resp.Success, Content = null }
+                    : new ServResp() { Success = false, Content = resp.Content };
             }
 
             return new ServResp() { Success = false, Content = null };
@@ -80,10 +77,9 @@ namespace Services
         {
             ApiResp? resp = await itemApiRepo.DelItemAsync(id);
 
-            if (resp is not null && !resp.Success && !string.IsNullOrEmpty(resp.Content as string))
-                return new ServResp() { Success = false, Content = resp.Content.ToString() };
-
-            return new ServResp() { Success = true, Content = null };
+            return resp is not null && !resp.Success && !string.IsNullOrEmpty(resp.Content as string)
+                ? new ServResp() { Success = false, Content = resp.Content.ToString() }
+                : new ServResp() { Success = true, Content = null };
         }
 
         public async Task<ServResp> DelItemImageAsync(int id, string filename)
@@ -105,7 +101,7 @@ namespace Services
 
             if (itemImage1 != null)
             {
-                var resItemImage = await GetImageItemAsync(itemId, 1, itemImage1, FilePaths.ImagesPath);
+                ImageFile? resItemImage = await GetImageItemAsync(itemId, 1, itemImage1, FilePaths.ImagesPath);
 
                 if (resItemImage is not null)
                     itemFilesToUpload.Image1 = resItemImage;
@@ -113,7 +109,7 @@ namespace Services
 
             if (itemImage2 != null)
             {
-                var resItemImage = await GetImageItemAsync(itemId, 2, itemImage2, FilePaths.ImagesPath);
+                ImageFile? resItemImage = await GetImageItemAsync(itemId, 2, itemImage2, FilePaths.ImagesPath);
 
                 if (resItemImage is not null)
                     itemFilesToUpload.Image2 = resItemImage;
@@ -128,16 +124,16 @@ namespace Services
 
             if (resp != null && resp.Content is not null)
             {
-                var respBllResp = ApiRespHandler.Handler<ItemFileNames>(resp);
+                ServResp? respBllResp = ApiRespHandler.Handler<ItemFileNames>(resp);
 
                 if (respBllResp is not null && respBllResp.Success)
                 {
-                    var itemFileNames = respBllResp.Content as ItemFileNames;
+                    ItemFileNames? itemFileNames = respBllResp.Content as ItemFileNames;
                     if (itemFileNames is not null)
                     {
                         if (itemFileNames.Image1 is not null)
                         {
-                            var newPath = Path.Combine(FilePaths.ImagesPath, itemFileNames.Image1);
+                            string newPath = Path.Combine(FilePaths.ImagesPath, itemFileNames.Image1);
                             System.IO.File.Move(itemFilesToUpload.Image1.ImageFilePath, newPath);
 
                             itemFilesToUpload.Image1.ImageFilePath = Path.Combine(FilePaths.ImagesPath, itemFileNames.Image1);
@@ -145,7 +141,7 @@ namespace Services
 
                         if (itemFileNames.Image2 is not null)
                         {
-                            var newPath = Path.Combine(FilePaths.ImagesPath, itemFileNames.Image2);
+                            string newPath = Path.Combine(FilePaths.ImagesPath, itemFileNames.Image2);
                             System.IO.File.Move(itemFilesToUpload.Image2.ImageFilePath, newPath);
 
                             itemFilesToUpload.Image2.ImageFilePath = Path.Combine(FilePaths.ImagesPath, itemFileNames.Image2);
@@ -172,7 +168,7 @@ namespace Services
 
             if (File.Exists(filePathAndName))
             {
-                using var fs = new FileStream(filePathAndName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                using FileStream fs = new FileStream(filePathAndName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
 
                 using MemoryStream memoryStream = new();
                 fs.CopyTo(memoryStream);
@@ -185,7 +181,7 @@ namespace Services
 
             if (resp is not null && resp.Content is not null and Stream)
             {
-                using var fs = new FileStream(filePathAndName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                using FileStream fs = new FileStream(filePathAndName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
 
                 ((Stream)resp.Content).CopyTo(fs);
 

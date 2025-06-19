@@ -26,9 +26,9 @@ namespace ApiRepos
                     case RequestsTypes.Get:
                         httpResponse = await httpClient.GetAsync(url);
 
-                        var fileName = httpResponse.Content.Headers.ContentDisposition?.FileName ?? throw new ArgumentNullException("filename in headers not found!");
+                        string fileName = httpResponse.Content.Headers.ContentDisposition?.FileName ?? throw new ArgumentNullException("filename in headers not found!");
 
-                        var resultStream = await httpResponse.Content.ReadAsStreamAsync();
+                        Stream resultStream = await httpResponse.Content.ReadAsStreamAsync();
 
                         return new ApiResp()
                         {
@@ -45,11 +45,11 @@ namespace ApiRepos
 
                                 if (itemFilesToUpload.Image1 != null)
                                 {
-                                    using var fs = new FileStream(itemFilesToUpload.Image1.ImageFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                                    using FileStream fs = new FileStream(itemFilesToUpload.Image1.ImageFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                                     using MemoryStream memoryStream = new();
                                     fs.CopyTo(memoryStream);
 
-                                    var fileContent = new ByteArrayContent(memoryStream.ToArray());
+                                    ByteArrayContent fileContent = new ByteArrayContent(memoryStream.ToArray());
                                     //fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(itemFilesToUpload.Image1.FileContentType);
 
                                     form.Add(fileContent, "file1", itemFilesToUpload.Image1.FileName);
@@ -57,19 +57,19 @@ namespace ApiRepos
 
                                 if (itemFilesToUpload.Image2 != null)
                                 {
-                                    using var fs = new FileStream(itemFilesToUpload.Image2.ImageFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                                    using FileStream fs = new FileStream(itemFilesToUpload.Image2.ImageFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                                     using MemoryStream memoryStream = new();
                                     fs.CopyTo(memoryStream);
 
-                                    var fileContent = new ByteArrayContent(memoryStream.ToArray());
+                                    ByteArrayContent fileContent = new ByteArrayContent(memoryStream.ToArray());
                                     //fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(itemFilesToUpload.Image2.FileContentType);
 
                                     form.Add(fileContent, "file2", itemFilesToUpload.Image2.FileName);
                                 }
 
-                                var response = await httpClient.PutAsync(url, form);
+                                HttpResponseMessage response = await httpClient.PutAsync(url, form);
                                 response.EnsureSuccessStatusCode();
-                                var responseContent = await response.Content.ReadAsStringAsync();
+                                string responseContent = await response.Content.ReadAsStringAsync();
 
                                 return new ApiResp() { Success = true, Content = responseContent };
                             }
@@ -79,10 +79,9 @@ namespace ApiRepos
             }
             catch (Exception ex)
             {
-                if (ex.InnerException is not null && (ex.InnerException.Message == "Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente." || ex.InnerException.Message.Contains("Este host não é conhecido.")))
-                    return new ApiResp() { Success = false, Content = null, Error = Models.Resps.ErrorTypes.ServerUnavaliable };
-
-                throw ex;
+                return ex.InnerException is not null && (ex.InnerException.Message == "Nenhuma conexão pôde ser feita porque a máquina de destino as recusou ativamente." || ex.InnerException.Message.Contains("Este host não é conhecido."))
+                    ? new ApiResp() { Success = false, Content = null, Error = Models.Resps.ErrorTypes.ServerUnavaliable }
+                    : throw ex;
             }
 
             throw new Exception("Retorno não esperado");

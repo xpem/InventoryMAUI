@@ -4,11 +4,6 @@ using Inventory.Infra.Services;
 using Inventory.Views;
 using Models.DTO;
 using Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Inventory.ViewModels
 {
@@ -16,9 +11,9 @@ namespace Inventory.ViewModels
     {
         string email, name;
 
-        public string Email { get => email; set { if (email != value) { SetProperty(ref (email), value); } } }
+        public string Email { get => email; set { if (email != value) { SetProperty(ref email, value); } } }
 
-        public string Name { get => name; set { if (name != value) { SetProperty(ref (name), value); } } }
+        public string Name { get => name; set { if (name != value) { SetProperty(ref name, value); } } }
 
 
         public async Task AtualizaUserShowData()

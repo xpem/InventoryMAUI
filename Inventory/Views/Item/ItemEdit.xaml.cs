@@ -4,9 +4,9 @@ namespace Inventory.Views.Item;
 
 public partial class ItemEdit : ContentPage
 {
-	public ItemEdit(ItemEditVM itemEditVM)
-	{
-		InitializeComponent();
+    public ItemEdit(ItemEditVM itemEditVM)
+    {
+        InitializeComponent();
         BindingContext = itemEditVM;
     }
 
@@ -15,7 +15,7 @@ public partial class ItemEdit : ContentPage
         Button button = (Button)sender;
         string ID = button.CommandParameter.ToString();
 
-        var vm = (ItemEditVM)BindingContext;
+        ItemEditVM vm = (ItemEditVM)BindingContext;
         vm.DelItemImageCommand.Execute(ID);
     }
 }

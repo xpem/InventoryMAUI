@@ -1,16 +1,11 @@
-﻿using Models.DTO;
-using Models.Resps;
-using Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Services.Handlers;
-using ApiRepos.Interfaces;
+﻿using ApiRepos.Interfaces;
 using LocalRepos.Interface;
+using Models.DTO;
+using Models.Resps;
+using Services.Handlers;
+using Services.Interfaces;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Services
 {
@@ -18,7 +13,7 @@ namespace Services
     {
         public async Task<ServResp> GetSubCategoriesByCategoryId(int categoryId)
         {
-            var resp = await subCategoryApiRepo.GetSubCategoriesByCategoryId(categoryId.ToString());
+            ApiResp resp = await subCategoryApiRepo.GetSubCategoriesByCategoryId(categoryId.ToString());
 
             return ApiRespHandler.Handler<List<SubCategoryDTO>>(resp);
         }
@@ -30,11 +25,11 @@ namespace Services
 
         public async Task<ServResp> CreateApiAsync(SubCategoryDTO subCategory)
         {
-            var resp = await subCategoryApiRepo.CreateAsync(subCategory);
+            ApiResp? resp = await subCategoryApiRepo.CreateAsync(subCategory);
 
             if (resp is not null && resp.Success && resp.Content is not null and string)
             {
-                var jResp = JsonNode.Parse((string)resp.Content);
+                JsonNode? jResp = JsonNode.Parse((string)resp.Content);
                 if (jResp is not null)
                 {
                     SubCategoryDTO subCategoryResp = new()
@@ -58,7 +53,7 @@ namespace Services
             subCategoryDTO.CreatedAt = DateTime.Now;
             subCategoryDTO.UserId = uid;
 
-            var isValid = !(await subCategoryRepo.CheckIfExistsByCategoryIdAndName(uid, subCategoryDTO.CategoryId, subCategoryDTO.Name, null));
+            bool isValid = !await subCategoryRepo.CheckIfExistsByCategoryIdAndName(uid, subCategoryDTO.CategoryId, subCategoryDTO.Name, null);
 
             if (isValid)
             {
@@ -75,10 +70,9 @@ namespace Services
                     }
                     else
                     {
-                        if (resp?.Content is not null and string)
-                            return new ServResp() { Success = false, Content = resp.Content };
-                        else
-                            return new ServResp() { Success = false, Content = null };
+                        return resp?.Content is not null and string
+                            ? new ServResp() { Success = false, Content = resp.Content }
+                            : new ServResp() { Success = false, Content = null };
                     }
                 }
                 else
@@ -94,13 +88,13 @@ namespace Services
 
         public async Task<ServResp> UpdateApiAsync(DTOBase subCategory)
         {
-            var resp = await subCategoryApiRepo.UpdateApiAsync(subCategory as SubCategoryDTO);
+            ApiResp? resp = await subCategoryApiRepo.UpdateApiAsync(subCategory as SubCategoryDTO);
 
             if (resp is not null && resp.Content is not null and string)
             {
                 if (resp.Success)
                 {
-                    var jResp = JsonNode.Parse(resp.Content as string);
+                    JsonNode? jResp = JsonNode.Parse(resp.Content as string);
                     if (jResp is not null)
                     {
                         SubCategoryDTO subCategoryResp = new()
@@ -122,7 +116,7 @@ namespace Services
 
         public async Task<ServResp> UpdateAsync(int uid, bool isOn, SubCategoryDTO subCategoryDTO)
         {
-            var isValid = !(await subCategoryRepo.CheckIfExistsByCategoryIdAndName(uid, subCategoryDTO.CategoryId, subCategoryDTO.Name, subCategoryDTO.LocalId));
+            bool isValid = !await subCategoryRepo.CheckIfExistsByCategoryIdAndName(uid, subCategoryDTO.CategoryId, subCategoryDTO.Name, subCategoryDTO.LocalId);
 
             if (isValid)
             {
@@ -133,7 +127,7 @@ namespace Services
 
                 if (isOn)
                 {
-                    var resp = await subCategoryApiRepo.UpdateApiAsync(subCategoryDTO);
+                    ApiResp resp = await subCategoryApiRepo.UpdateApiAsync(subCategoryDTO);
                     if (!resp.Success) throw new Exception($"Could not be possible update obj, id: {subCategoryDTO.Id}, Erro: {resp.Content?.ToString()} ");
                 }
                 else await operationService.InsertOperationAsync(JsonSerializer.Serialize(subCategoryDTO), subCategoryDTO.LocalId.ToString() ?? throw new ArgumentNullException(), ExecutionType.Update, ObjectType.SubCategory);
@@ -146,12 +140,11 @@ namespace Services
 
         public async Task<ServResp> DelSubCategory(int id)
         {
-            var resp = await subCategoryApiRepo.DelSubCategory(id);
+            ApiResp? resp = await subCategoryApiRepo.DelSubCategory(id);
 
-            if (resp is not null && resp.Content is not null)
-                return new ServResp() { Success = resp.Success, Content = resp.Content };
-
-            return new ServResp() { Success = false, Content = null };
+            return resp is not null && resp.Content is not null
+                ? new ServResp() { Success = resp.Success, Content = resp.Content }
+                : new ServResp() { Success = false, Content = null };
         }
 
         public async Task LocalToApiAsync() => await SyncHelperService.LocalToApiAsync(this, operationQueueRepo);
@@ -160,16 +153,14 @@ namespace Services
 
         public SubCategoryDTO DeserializeObj(string content)
         {
-            var subCategory = JsonSerializer.Deserialize<SubCategoryDTO>(content);
+            SubCategoryDTO? subCategory = JsonSerializer.Deserialize<SubCategoryDTO>(content);
 
-            if (subCategory is null) throw new ArgumentNullException(nameof(subCategory));
-
-            return subCategory;
+            return subCategory is null ? throw new ArgumentNullException(nameof(subCategory)) : subCategory;
         }
 
         public async Task<int> CreateApiAsync(DTOBase modelBase)
         {
-            var apiResp = await CreateApiAsync(modelBase as SubCategoryDTO);
+            ServResp? apiResp = await CreateApiAsync(modelBase as SubCategoryDTO);
 
             if (apiResp is not null)
             {
@@ -186,13 +177,13 @@ namespace Services
 
         public async Task<List<DTOBase>?> GetByLastUpdateAsync(DateTime lastUpdate, int page)
         {
-            var apiResp = await subCategoryApiRepo.GetByLastUpdateAsync(lastUpdate, page);
+            ApiResp apiResp = await subCategoryApiRepo.GetByLastUpdateAsync(lastUpdate, page);
 
-            var resp = ApiRespHandler.Handler<List<SubCategoryDTO>>(apiResp);
+            ServResp? resp = ApiRespHandler.Handler<List<SubCategoryDTO>>(apiResp);
 
             if (resp is not null && resp.Success && resp.Content is not null)
             {
-                var listResp = resp.Content as List<Models.DTO.SubCategoryDTO>;
+                List<SubCategoryDTO>? listResp = resp.Content as List<Models.DTO.SubCategoryDTO>;
 
                 return listResp?.Select(x => x as DTOBase).ToList();
             }

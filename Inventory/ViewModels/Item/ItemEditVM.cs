@@ -8,14 +8,8 @@ using Models.Item.Files;
 using Models.Resps;
 using Services;
 using Services.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Inventory.ViewModels.Item
 {
@@ -88,16 +82,18 @@ namespace Inventory.ViewModels.Item
         [ObservableProperty]
         UIItemSituation itemSituation;
 
-        public ObservableCollection<UIItemSituation> ItemsSituationObsList { get; set; }
+        [ObservableProperty]
+        private ObservableCollection<UIItemSituation> itemsSituationObsList;
 
-        public ObservableCollection<UIAcquisitionType> AcquisitionTypeObsList { get; private set; }
+        [ObservableProperty]
+        public ObservableCollection<UIAcquisitionType> acquisitionTypeObsList;
 
         #endregion
 
         #region Commands
 
         [RelayCommand]
-        public async Task CategorySelector() => await Shell.Current.GoToAsync($"{nameof(CategorySelector)}", true);
+        public async Task CategorySelector() => await Shell.Current.GoToAsync($"{nameof(Views.Item.Selectors.CategorySelector)}", true);
 
         [RelayCommand]
         public async Task AddItem() => await AltItem();
@@ -153,8 +149,8 @@ namespace Inventory.ViewModels.Item
             //backing of Category Selection Function
             if (query.ContainsKey("SelectedCategory") && query.TryGetValue("SelectedCategory", out object selectedCategory))
             {
-                Models.DTO.CategoryDTO modelSelectedCategory = selectedCategory as Models.DTO.CategoryDTO;
-                CategoryId = modelSelectedCategory.Id.Value;
+               UICategory modelSelectedCategory = selectedCategory as UICategory;
+                CategoryId = modelSelectedCategory.Id;
 
                 if (modelSelectedCategory?.SubCategories?.Count > 0)
                 {
@@ -174,7 +170,7 @@ namespace Inventory.ViewModels.Item
                 ItemsSituationObsList = [];
                 List<ItemSituation> itemSituationList = [];
 
-                var respItemSituationList = await itemSituationService.GetItemSituation();
+                ServResp? respItemSituationList = await itemSituationService.GetItemSituation();
 
                 if (respItemSituationList is not null && respItemSituationList.Success)
                     itemSituationList = respItemSituationList.Content as List<ItemSituation>;
@@ -190,7 +186,7 @@ namespace Inventory.ViewModels.Item
 
                 List<AcquisitionType> acquisitionTypeList = [];
 
-                var respAcquisitionTypeList = await acquisitionTypeService.GetAcquisitionType();
+                ServResp? respAcquisitionTypeList = await acquisitionTypeService.GetAcquisitionType();
 
                 if (respAcquisitionTypeList is not null && respAcquisitionTypeList.Success)
                     acquisitionTypeList = respAcquisitionTypeList.Content as List<AcquisitionType>;
@@ -238,7 +234,7 @@ namespace Inventory.ViewModels.Item
 
                         ImagePathsObsCol = [];
 
-                        var responseItemImages = await itemService.GetItemImages(ItemId, item.Image1, item.Image2);
+                        ItemFilesToUpload responseItemImages = await itemService.GetItemImages(ItemId, item.Image1, item.Image2);
 
                         if (responseItemImages != null)
                         {
@@ -301,10 +297,7 @@ namespace Inventory.ViewModels.Item
             {
                 CrvwIsVisible = true;
 
-                if (ImagePathsObsCol.Count == 2)
-                    BtnPickItemImageIsEnabled = false;
-                else
-                    BtnPickItemImageIsEnabled = true;
+                BtnPickItemImageIsEnabled = ImagePathsObsCol.Count != 2;
             }
             else
             {
@@ -381,11 +374,11 @@ namespace Inventory.ViewModels.Item
                             if (ImagePaths.Image2 != null)
                                 itemFilesToUpload.Image2 = new() { FileName = ImagePaths.Image2.FileName, FileId = 2, ImageFilePath = ImagePaths.Image2.ImageFilePath };
 
-                            var respAddItemImages = await itemService.AddItemImageAsync(ItemId, itemFilesToUpload);
+                            ServResp? respAddItemImages = await itemService.AddItemImageAsync(ItemId, itemFilesToUpload);
 
                             if (respAddItemImages is not null && respAddItemImages.Success)
                             {
-                                var itemFileNames = respAddItemImages.Content as Models.Item.Files.ItemFileNames;
+                                ItemFileNames? itemFileNames = respAddItemImages.Content as Models.Item.Files.ItemFileNames;
                             }
                         }
                     }
@@ -434,16 +427,12 @@ namespace Inventory.ViewModels.Item
         {
             if (MediaPicker.Default.IsCaptureSupported)
             {
-                FileResult photo;
-
-                if (mediaPickerType is MediaPickerType.pick)
-                    photo = await MediaPicker.Default.PickPhotoAsync();
-                else
-                    photo = await MediaPicker.Default.CapturePhotoAsync();
-
+                FileResult photo = mediaPickerType is MediaPickerType.pick
+                    ? await MediaPicker.Default.PickPhotoAsync()
+                    : await MediaPicker.Default.CapturePhotoAsync();
                 if (photo != null)
                 {
-                    string tempFileName = (new Guid()).ToString();
+                    string tempFileName = new Guid().ToString();
                     int fileIdx = 1;
                     if (ImagePathsObsCol is not null && ImagePathsObsCol.Count == 1 && ImagePaths.Image1 is not null)
                     { fileIdx++; }

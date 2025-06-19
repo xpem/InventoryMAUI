@@ -10,9 +10,9 @@ namespace Inventory.ViewModels
 
         string btnSendEmailText = "Enviar Email";
 
-        public string Email { get => email; set { if (email != value) { SetProperty(ref (email), value); } } }
+        public string Email { get => email; set { if (email != value) { SetProperty(ref email, value); } } }
 
-        public string BtnSendEmailText { get => btnSendEmailText; set { if (btnSendEmailText != value) { SetProperty(ref (btnSendEmailText), value); } } }
+        public string BtnSendEmailText { get => btnSendEmailText; set { if (btnSendEmailText != value) { SetProperty(ref btnSendEmailText, value); } } }
 
         [RelayCommand]
         public async Task UpdatePassword()

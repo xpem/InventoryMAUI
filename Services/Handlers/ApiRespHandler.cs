@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace Services.Handlers
 {
-   public static class ApiRespHandler
+    public static class ApiRespHandler
     {
         public static ServResp Handler<TModel>(ApiResp apiResponse)
         {
@@ -19,14 +19,13 @@ namespace Services.Handlers
                             return new ServResp() { Success = false, TryRefreshToken = apiResponse.TryRefreshToken, Content = apiResponse.Content };
                     }
 
-                    if (apiResponse.Content is not null and string)
-                        return new ServResp()
+                    return apiResponse.Content is not null and string
+                        ? new ServResp()
                         {
                             Success = true,
                             Content = string.IsNullOrEmpty(apiResponse.Content as string) ? null : JsonDeserialize<TModel>(apiResponse.Content as string)
-                        };
-
-                    throw new Exception("apiResponse.Content nulo");
+                        }
+                        : throw new Exception("apiResponse.Content nulo");
                 }
 
                 throw new Exception("apiResponse nulo");
@@ -47,9 +46,7 @@ namespace Services.Handlers
                 };
 
                 TModel? item = JsonSerializer.Deserialize<TModel>(content, options);
-                if (item is not null)
-                    return item;
-                else throw new Exception("item nulo");
+                return item is not null ? item : throw new Exception("item nulo");
             }
             catch (Exception ex)
             {
