@@ -147,20 +147,22 @@ namespace Inventory.ViewModels.Category
             CurrentPage = 1;
 
             _ = LoadSubCategories(CurrentPage);
-
-            OnPropertyChanged(nameof(SubCategoryObsCol));
         }
 
         private async Task LoadSubCategories(int pageNumber)
         {
             IsBusy = true;
+            try
+            {
+                List<Models.DTO.SubCategoryDTO> subCategoryList = await subCategoryService.GetByCategoryIdAsync(((App)App.Current).Uid.Value, pageNumber, Id);
 
-            List<Models.DTO.SubCategoryDTO> subCategoryList = await subCategoryService.GetByCategoryIdAsync(((App)App.Current).Uid.Value, pageNumber, Id);
+                if (subCategoryList != null && subCategoryList.Count > 0)
+                    foreach (var subCategory in subCategoryList)
+                        SubCategoryObsCol.Add(new UISubCategory() { Id = subCategory.Id, Icon = SubCategoryIconsList.GetIconCode(subCategory.IconName), Name = subCategory.Name, SystemDefault = !subCategory.SystemDefault });
 
-            if (subCategoryList != null && subCategoryList.Count > 0)
-                foreach (var subCategory in subCategoryList)
-                    SubCategoryObsCol.Add(new UISubCategory() { Id = subCategory.Id, Icon = SubCategoryIconsList.GetIconCode(subCategory.IconName), Name = subCategory.Name, SystemDefault = !subCategory.SystemDefault.Value });
+                OnPropertyChanged(nameof(SubCategoryObsCol));
 
+            }catch(Exception ex) { throw ex; }
             IsBusy = false;
         }
     }

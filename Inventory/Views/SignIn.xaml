@@ -20,8 +20,8 @@
         </Style>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <ScrollView HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-            <Border IsEnabled="{Binding IsNotBusy}" Style="{StaticResource BorderPrimary}">
+        <ScrollView HorizontalOptions="Center" VerticalOptions="Center">
+            <Border Style="{StaticResource BorderPrimary}">
                 <StackLayout>
                     <Label Style="{StaticResource Icon}" Text="{x:Static Icons:Icons.ClipboardList}" />
                     <Components:BorderedEntry LabelText="Email" Text="{Binding Email}" />

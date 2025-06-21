@@ -66,7 +66,7 @@ namespace Inventory.ViewModels.Item.Selectors
                                 Id = subCategory.Id,
                                 Icon = SubCategoryIconsList.GetIconCode(subCategory.IconName),
                                 Name = subCategory.Name,
-                                SystemDefault = subCategory.SystemDefault.Value
+                                SystemDefault = subCategory.SystemDefault
                             });
 
                 OnPropertyChanged(nameof(SubCategoryObsList));

@@ -33,7 +33,7 @@ namespace Services
                         {
                             localObj = await requester.GetByIdAsync(apiRespObj.Id.Value);
 
-                            apiRespObj.LocalId = localObj?.LocalId ?? 0;
+                            apiRespObj.LocalId = localObj?.LocalId ?? null;
                         }
                         else
                             throw new ArgumentNullException(nameof(apiRespObj.Id));

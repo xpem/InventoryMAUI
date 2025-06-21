@@ -37,7 +37,7 @@ namespace Services
                         Id = jResp["Id"]?.GetValue<int>() ?? 0,
                         Name = jResp["Name"]?.GetValue<string>(),
                         IconName = jResp["IconName"]?.GetValue<string>(),
-                        SystemDefault = jResp["SystemDefault"]?.GetValue<bool>()
+                        SystemDefault = jResp["SystemDefault"].GetValue<bool>()
                     };
 
                     return new ServResp() { Success = resp.Success, Content = subCategoryResp };
@@ -102,7 +102,7 @@ namespace Services
                             Id = jResp["Id"]?.GetValue<int>() ?? 0,
                             Name = jResp["Name"]?.GetValue<string>(),
                             IconName = jResp["IconName"]?.GetValue<string>(),
-                            SystemDefault = jResp["SystemDefault"]?.GetValue<bool>()
+                            SystemDefault = jResp["SystemDefault"].GetValue<bool>()
                         };
 
                         return new ServResp() { Success = resp.Success, Content = subCategoryResp };

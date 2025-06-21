@@ -20,7 +20,7 @@ namespace Services
 
             VersionDbTablesDTO? actualVesionDbTables = context.VersionDbTables.FirstOrDefault();
 
-            VersionDbTablesDTO newVersionDbTables = new() { Id = 0, VERSION = 14 };
+            VersionDbTablesDTO newVersionDbTables = new() { Id = 0, VERSION = 15 };
 
             if (actualVesionDbTables != null)
             {
