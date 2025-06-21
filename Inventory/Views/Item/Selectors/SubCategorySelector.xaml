@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Inventory.Views.Item.Selectors.SubCategorySelector"
-                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-   xmlns:Icons="clr-namespace:Models;assembly=Models"
-   xmlns:components="clr-namespace:Inventory.Components;assembly=Inventory"
-   xmlns:model="clr-namespace:Inventory.Infra.Models"
-   xmlns:vm="clr-namespace:Inventory.ViewModels.Item.Selectors"
-                x:DataType="vm:SubCategorySelectorVM"
-                xmlns:behaviors="clr-namespace:Inventory.Utils.Behaviors;assembly=Inventory"
+<ContentPage
+    x:Class="Inventory.Views.Item.Selectors.SubCategorySelector"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Icons="clr-namespace:Models;assembly=Models"
+    xmlns:behaviors="clr-namespace:Inventory.Utils.Behaviors;assembly=Inventory"
+    xmlns:components="clr-namespace:Inventory.Components;assembly=Inventory"
+    xmlns:model="clr-namespace:Inventory.Infra.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:Inventory.ViewModels.Item.Selectors"
     Title="Selecione a subcategoria"
-              Style="{StaticResource ContentPage}">
+    x:DataType="vm:SubCategorySelectorVM"
+    Style="{StaticResource ContentPage}">
     <ContentPage.Resources>
         <Style x:Key="BtnIcon" TargetType="Button">
             <Setter Property="CornerRadius" Value="30" />
@@ -24,64 +25,64 @@
     </ContentPage.Resources>
     <VerticalStackLayout>
         <Border
-     Margin="5,10,5,5"
-     Padding="0"
-     Background="{StaticResource Gray100}"
-     StrokeShape="RoundRectangle 10">
+            Margin="5,10,5,5"
+            Padding="0"
+            Background="{StaticResource Gray100}"
+            StrokeShape="RoundRectangle 10">
             <Border.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding SelectCategoryCommand}" />
             </Border.GestureRecognizers>
             <Grid
-         BackgroundColor="{StaticResource Gray100}"
-         ColumnDefinitions="40,*"
-         RowDefinitions="*">
+                BackgroundColor="{StaticResource Gray100}"
+                ColumnDefinitions="40,*"
+                RowDefinitions="*">
                 <Ellipse
-             Fill="{Binding CategoryColor}"
-             HeightRequest="30"
-             WidthRequest="30" />
+                    Fill="{Binding CategoryColor}"
+                    HeightRequest="30"
+                    WidthRequest="30" />
                 <FlexLayout
-             Grid.Column="1"
-             Margin="5"
-             HeightRequest="40"
-             HorizontalOptions="Start"
-             VerticalOptions="Center">
+                    Grid.Column="1"
+                    Margin="5"
+                    HeightRequest="40"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center">
                     <Label
-                 FontAttributes="Bold"
-                 FontSize="15"
-                 Text="{Binding CategoryName}"
-                 TextColor="{StaticResource Black}"
-                 VerticalOptions="Center" />
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        Text="{Binding CategoryName}"
+                        TextColor="{StaticResource Black}"
+                        VerticalOptions="Center" />
                 </FlexLayout>
             </Grid>
         </Border>
         <CollectionView
-         Margin="0,5,0,0"
-         ItemsSource="{Binding SubCategoryObsList}"
+            Margin="0,5,0,0"
+            ItemsSource="{Binding SubCategoryObsList}"
             SelectedItem="{Binding SelectedSubCategory}"
-         SelectionMode="Single"
-         VerticalOptions="Start">
+            SelectionMode="Single"
+            VerticalOptions="Start">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:UISubCategory">
                     <Border
-                         Margin="5,0,5,5"
-                         Padding="0"
-                         Background="{StaticResource Gray100}"
-                         StrokeShape="RoundRectangle 10">
+                        Margin="5,0,5,5"
+                        Padding="0"
+                        Background="{StaticResource Gray100}"
+                        StrokeShape="RoundRectangle 10">
                         <Grid
-                             Padding="10,0,10,0"
-                             ColumnDefinitions="40,*"
-                             ColumnSpacing="5"
-                             HorizontalOptions="Fill"
-                             RowDefinitions="auto">
+                            Padding="10,0,10,0"
+                            ColumnDefinitions="40,*"
+                            ColumnSpacing="5"
+                            HorizontalOptions="Fill"
+                            RowDefinitions="auto">
                             <Button Style="{StaticResource BtnIcon}" Text="{Binding Icon}" />
                             <Label
-                                 Grid.Column="1"
-                                 Margin="10,0,0,0"
-                                 FontAttributes="Bold"
-                                 FontSize="15"
-                                 Text="{Binding Name}"
-                                 TextColor="{StaticResource Black}"
-                                 VerticalOptions="Center" />
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                FontAttributes="Bold"
+                                FontSize="15"
+                                Text="{Binding Name}"
+                                TextColor="{StaticResource Black}"
+                                VerticalOptions="Center" />
                             <!--<HorizontalStackLayout Grid.Column="2" HorizontalOptions="End">
                                  <Button
                                      x:Name="BtnSubCategoryEdit"
@@ -118,11 +119,11 @@
                         </Trigger>
                     </Grid.Triggers>
                     <ActivityIndicator
-                     HorizontalOptions="Center"
-                     IsRunning="{Binding IsBusy}"
-                     IsVisible="{Binding IsBusy}"
-                     VerticalOptions="Center"
-                     Color="#2196F3" />
+                        HorizontalOptions="Center"
+                        IsRunning="{Binding IsBusy}"
+                        IsVisible="{Binding IsBusy}"
+                        VerticalOptions="Center"
+                        Color="#2196F3" />
                 </Grid>
             </CollectionView.Footer>
         </CollectionView>

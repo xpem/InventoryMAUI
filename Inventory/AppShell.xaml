@@ -25,11 +25,11 @@
         </Tab>
     </FlyoutItem>
 
-    <!--<FlyoutItem Title="Categorias" Icon="{x:Static Icons:Icons.Tags}">
+    <FlyoutItem Title="Categorias" Icon="{x:Static Icons:Icons.Tags}">
         <Tab>
-            <ShellContent ContentTemplate="{DataTemplate local:CategoryList}" />
+            <ShellContent ContentTemplate="{DataTemplate local:Category.CategoryList}" />
         </Tab>
-    </FlyoutItem>-->
+    </FlyoutItem>
 
     <Shell.FlyoutHeader>
         <Components:FlyoutHeader Email="{Binding Email, Source={RelativeSource AncestorType={x:Type vm:AppShellVM}}}" />

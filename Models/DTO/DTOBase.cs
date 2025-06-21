@@ -1,9 +1,12 @@
-﻿namespace Models.DTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Models.DTO
 {
     public class DTOBase
     {
         public int? Id { get; set; }
 
+        [Key]
         public int? LocalId { get; set; }
 
         public int UserId { get; set; }

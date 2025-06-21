@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Inventory.Infra.Models;
 using Inventory.Utils;
 using Inventory.Views;
@@ -36,19 +37,11 @@ namespace Inventory.ViewModels
 
         List<UIItem> ListAllItems;
 
+        [ObservableProperty]
+        ObservableCollection<UIItem> itemsObsList = [];
 
-        ObservableCollection<UIItem> itemsObsList;
-
-        public ObservableCollection<UIItem> ItemsObsList
-        {
-            get => itemsObsList;
-            set
-            {
-                SetProperty(ref itemsObsList, value);
-            }
-        }
-
-        public ObservableCollection<UIItemSituation> ItemsSituationObsList { get; set; }
+        [ObservableProperty]
+        ObservableCollection<UIItemSituation> itemsSituationObsList = [];
 
         UIItemSituation SelectedUIItemsStatus { get; set; }
 
@@ -187,7 +180,7 @@ namespace Inventory.ViewModels
                                 ListAllItems.Add(uIItem);
 
                                 if (item.Situation.Id == SelectedUIItemsStatus.Id)
-                                    itemsObsList.Add(uIItem);
+                                    ItemsObsList.Add(uIItem);
 
                                 //if (SelectedUIItemsStatus.Exists(x => x.Id == item.Situation))
                                 //    ItemsObsList.Add(uIItem);
@@ -198,7 +191,7 @@ namespace Inventory.ViewModels
                 }
                 catch (ServerOffException)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Aviso", "Não foi possível se conectar com o servidor", null, "Ok");
+                    await Application.Current.Windows[0].Page.DisplayAlert("Aviso", "Não foi possível se conectar com o servidor", null, "Ok");
                 }
                 catch (SignInFailException ex)
                 {

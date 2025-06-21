@@ -385,7 +385,7 @@ namespace Inventory.ViewModels.Item
                     else if (resp.Content != null)
                         message = resp.Content as string;
 
-                    bool resposta = await Application.Current.MainPage.DisplayAlert("Aviso", message, null, "Ok");
+                    bool resposta = await Application.Current.Windows[0].Page.DisplayAlert("Aviso", message, null, "Ok");
 
                     if (!resposta)
                         await Shell.Current.GoToAsync("..");
@@ -403,17 +403,17 @@ namespace Inventory.ViewModels.Item
             if (string.IsNullOrEmpty(Name))
                 valid = false;
 
-            if (!valid) { await Application.Current.MainPage.DisplayAlert("Aviso", "preencha com um nome válido", null, "Ok"); }
+            if (!valid) { await Application.Current.Windows[0].Page.DisplayAlert("Aviso", "preencha com um nome válido", null, "Ok"); }
             else
             {
                 if (PkrItemSituationSelectedIndex is 0)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Aviso", "Selecione uma situação válida", null, "Ok");
+                    await Application.Current.Windows[0].Page.DisplayAlert("Aviso", "Selecione uma situação válida", null, "Ok");
                     valid = false;
                 }
                 if (pkrAcquisitionTypeSelectedIndex is 0)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Aviso", "Selecione um tipo de aquisição válida", null, "Ok");
+                    await Application.Current.Windows[0].Page.DisplayAlert("Aviso", "Selecione um tipo de aquisição válida", null, "Ok");
                     valid = false;
                 }
             }

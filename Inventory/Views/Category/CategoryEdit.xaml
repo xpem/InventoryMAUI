@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Inventory.Views.Category.CategoryEdit"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Icons="clr-namespace:Models;assembly=Models"
+    xmlns:components="clr-namespace:Inventory.Components;assembly=Inventory"
+    xmlns:model="clr-namespace:Inventory.Infra.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:Inventory.ViewModels.Category"
+    x:Name="this"
+    Title="CategoryEdit"
+    x:DataType="vm:CategoryEditVM"
+    Style="{StaticResource ContentPage}">
+    <ContentPage.Resources>
+        <Style x:Key="BtnDefineColor" TargetType="Button">
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="HeightRequest" Value="40" />
+            <Setter Property="WidthRequest" Value="40" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </ContentPage.Resources>
+    <Grid RowDefinitions="*">
+        <ScrollView HorizontalOptions="Start" IsEnabled="{Binding IsNotBusy}">
+            <StackLayout>
+                <Border IsEnabled="{Binding IsNotBusy}" Style="{StaticResource BorderPrimary}">
+                    <VerticalStackLayout VerticalOptions="Fill">
+                        <components:BorderedEntry
+                            Grid.Column="1"
+                            LabelText="Nome"
+                            Text="{Binding Name}" />
+                        <Label
+                            Margin="0,10,0,0"
+                            Style="{StaticResource LblHEntry}"
+                            Text="Cor" />
+                        <Button
+                            BackgroundColor="{Binding CategoryColor}"
+                            Command="{Binding ShowColorPickerCommand}"
+                            CornerRadius="20"
+                            HeightRequest="40"
+                            HorizontalOptions="Start"
+                            IsVisible="{Binding ButtonColorVisible}"
+                            WidthRequest="40" />
+                        <FlexLayout
+                            FlowDirection="LeftToRight"
+                            IsVisible="{Binding ColorPickerVisible}"
+                            JustifyContent="Start"
+                            Wrap="Wrap">
+                            <Button
+                                BackgroundColor="#2F9300"
+                                Command="{Binding DefineColorCommand}"
+                                CommandParameter="#2F9300"
+                                Style="{StaticResource BtnDefineColor}" />
+                            <Button
+                                BackgroundColor="#0C5532"
+                                Command="{Binding DefineColorCommand}"
+                                CommandParameter="#0C5532"
+                                Style="{StaticResource BtnDefineColor}" />
+                            <Button
+                                BackgroundColor="#0E0C55"
+                                Command="{Binding DefineColorCommand}"
+                                CommandParameter="#0E0C55"
+                                Style="{StaticResource BtnDefineColor}" />
+                            <Button
+                                BackgroundColor="#BB0000"
+                                Command="{Binding DefineColorCommand}"
+                                CommandParameter="#BB0000"
+                                Style="{StaticResource BtnDefineColor}" />
+                            <Button
+                                BackgroundColor="#416986"
+                                Command="{Binding DefineColorCommand}"
+                                CommandParameter="#416986"
+                                Style="{StaticResource BtnDefineColor}" />
+                            <Button
+                                BackgroundColor="#864141"
+                                Command="{Binding DefineColorCommand}"
+                                CommandParameter="#864141"
+                                Style="{StaticResource BtnDefineColor}" />
+                            <Button
+                                BackgroundColor="#4700BB"
+                                Command="{Binding DefineColorCommand}"
+                                CommandParameter="#4700BB"
+                                Style="{StaticResource BtnDefineColor}" />
+                            <Button
+                                BackgroundColor="#B700BB"
+                                Command="{Binding DefineColorCommand}"
+                                CommandParameter="#B700BB"
+                                Style="{StaticResource BtnDefineColor}" />
+                            <Button
+                                BackgroundColor="#006CBB"
+                                Command="{Binding DefineColorCommand}"
+                                CommandParameter="#006CBB"
+                                Style="{StaticResource BtnDefineColor}" />
+                            <Button
+                                BackgroundColor="#864183"
+                                Command="{Binding DefineColorCommand}"
+                                CommandParameter="#864183"
+                                Style="{StaticResource BtnDefineColor}" />
+                        </FlexLayout>
+                        <Button
+                            Margin="0,10,0,20"
+                            Command="{Binding InsertCommand}"
+                            ContentLayout="Left,10"
+                            FontSize="20"
+                            IsEnabled="{Binding BtnInsertIsEnabled}"
+                            Style="{StaticResource ButtonPrimary}"
+                            Text="{Binding BtnInsertText}">
+                            <Button.ImageSource>
+                                <FontImageSource
+                                    FontFamily="Icons"
+                                    Glyph="{Binding BtnInsertIcon}"
+                                    Size="15"
+                                    Color="#fff" />
+                            </Button.ImageSource>
+                        </Button>
+                    </VerticalStackLayout>
+                </Border>
+            </StackLayout>
+        </ScrollView>
+        <ActivityIndicator
+            HeightRequest="100"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsBusy}"
+            VerticalOptions="Center"
+            WidthRequest="100"
+            Color="White" />
+    </Grid>
+</ContentPage>

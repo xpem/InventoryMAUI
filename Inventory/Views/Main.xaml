@@ -72,36 +72,36 @@
                     <Border
                         Margin="5,0,0,5"
                         Padding="0"
-                        Background="{StaticResource Gray100}"                        
+                        Background="{StaticResource Gray100}"
                         StrokeShape="RoundRectangle 10"
                         VerticalOptions="Start">
                         <Grid
                             Margin="5,10,5,10"
                             ColumnDefinitions="50,auto"
                             VerticalOptions="Fill">
-                                <Button
+                            <Button
                                 BackgroundColor="{Binding CategoryColor}"
                                 Style="{StaticResource BtnIcon}"
                                 Text="{Binding SubCategoryIcon}" />
-                                <VerticalStackLayout
+                            <VerticalStackLayout
                                 Grid.Column="2"
                                 Margin="10,0,0,0"
                                 VerticalOptions="Center">
-                                    <Label
+                                <Label
                                     FontAttributes="Bold"
                                     FontSize="15"
                                     LineBreakMode="TailTruncation"
                                     MaxLines="1"
                                     Text="{Binding Name}"
                                     TextColor="{StaticResource Black}" />
-                                    <Label
+                                <Label
                                     FontAttributes="Italic"
                                     FontSize="12"
                                     Text="{Binding CategoryAndSubCategory}"
                                     TextColor="{StaticResource Black}" />
-                                </VerticalStackLayout>
-                            </Grid>
-                        </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.Footer>

@@ -110,7 +110,7 @@ namespace Inventory.ViewModels.Item
 
         private async Task DeleteItem()
         {
-            if (await Application.Current.MainPage.DisplayAlert("Confirmação", "Deseja excluir este Item?", "Sim", "Cancelar"))
+            if (await Application.Current.Windows[0].Page.DisplayAlert("Confirmação", "Deseja excluir este Item?", "Sim", "Cancelar"))
             {
                 IsBusy = true;
 
@@ -118,7 +118,7 @@ namespace Inventory.ViewModels.Item
 
                 IsBusy = false;
 
-                if (!await Application.Current.MainPage.DisplayAlert("Aviso", "Item excluído!", null, "Ok"))
+                if (!await Application.Current.Windows[0].Page.DisplayAlert("Aviso", "Item excluído!", null, "Ok"))
                     await Shell.Current.GoToAsync("..");
             }
         }

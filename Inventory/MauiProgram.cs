@@ -3,9 +3,13 @@ using ApiRepos.Interfaces;
 using CommunityToolkit.Maui;
 using Inventory.Infra.Services;
 using Inventory.ViewModels;
+using Inventory.ViewModels.Category;
+using Inventory.ViewModels.Category.SubCategory;
 using Inventory.ViewModels.Item;
 using Inventory.ViewModels.Item.Selectors;
 using Inventory.Views;
+using Inventory.Views.Category;
+using Inventory.Views.Category.SubCategory;
 using Inventory.Views.Item;
 using Inventory.Views.Item.Selectors;
 using LocalRepos;
@@ -59,6 +63,10 @@ namespace Inventory
             services.AddTransientWithShellRoute<ItemEdit, ItemEditVM>(nameof(ItemEdit));
             services.AddTransientWithShellRoute<CategorySelector, CategorySelectorVM>(nameof(CategorySelector));
             services.AddTransientWithShellRoute<SubCategorySelector, SubCategorySelectorVM>(nameof(SubCategorySelector));
+            services.AddTransientWithShellRoute<CategoryList, CategoryListVM>(nameof(CategoryList));
+            services.AddTransientWithShellRoute<CategoryDisplay, CategoryDisplayVM>(nameof(CategoryDisplay));
+            services.AddTransientWithShellRoute<CategoryEdit, CategoryEditVM>(nameof(CategoryEdit));
+            services.AddTransientWithShellRoute<SubCategoryEdit, SubCategoryEditVM>(nameof(SubCategoryEdit));
 
             return services;
         }
